@@ -1,0 +1,416 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{comment}
+\usepackage{amssymb}
+\usepackage{amsthm}
+
+\newtheorem{definition}{Definition}
+\newtheorem{property}{Property}
+\newtheorem{proposition}{Proposition}
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{example}{Example}
+\newtheorem{notation}{Notation}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Algorithms and pseudo code
+\usepackage{verbatim}
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+
+% Graphics and display
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{subfig}
+\usepackage{enumerate}
+\usepackage{url}
+\usepackage{multirow}
+
+% Math symbols and environments
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{stmaryrd} % \varcurlyvee
+
+
+\usepackage{calc}%#%
+\usepackage{enumitem} %%% used in framed graph
+
+\date{ }
+% TikZ
+
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+\usetikzlibrary{positioning}
+\usetikzlibrary{calc}
+
+\usepackage{tikz-3dplot}
+
+\definecolor{myyellow}{RGB}{255,255,150}
+\definecolor{mylavender}{RGB}{125,249,255}
+\definecolor{mygreen}{RGB}{144,238,14}
+\definecolor{myred}{RGB}{255,0,0}
+
+\newcommand\mytext[3][\scriptsize]{#2\\#1 #3}
+\newcommand\mynode[4][]{%
+  \node[mynode,#1,text width=\the\dimexpr#2cm] (#3) {\mytext{#3}{#4}}; 
+}
+\newcommand\mynot[4][]{%
+  \node[mynot,#1,text width=\the\dimexpr#2cm] (#3) {\mytext{#3}{#4}}; 
+}
+
+\setcounter{secnumdepth}{4}
+
+%%%%%%%%%%%%%%%%
+%%%% Macros %%%%
+%%%%%%%%%%%%%%%%
+
+%%% Math
+\newcommand{\nat}{\mathbb{N}}   % Natural numbers
+\newcommand{\rat}{\mathbb{Q}}   % Rational numbers
+\newcommand{\real}{\mathbb{R}}  % Real numbers
+\newcommand{\runit}{[0, 1]}    % The real unit interval
+
+
+% = with "hip." on the top, useful for indicating where a hypothesis comes in
+\newcommand{\heq}{\stackrel{\text{\fontsize{3pt}{3pt}\selectfont hip.}}{=}}
+% = because of the de Morgan laws.
+\newcommand{\dmeq}{\stackrel{\text{\tiny{dM}}}{=}}
+
+
+%%% Sets
+\newcommand{\args}{\mathcal{A}} % Set of all arguments
+\newcommand{\att}{\mathcal{R}}  % Set of all attacks
+\newcommand{\valueset}{L}
+
+%%% Votes on arguments
+\newcommand{\varg}{V_{\args}}   % Function giving votes on arguments
+\newcommand{\vargpro}[1]{\varg^+\left(#1\right)} % Pro votes on arguments
+\newcommand{\vargcon}[1]{\varg^-\left(#1\right)} % Con votes on arguments
+\newcommand{\vargtot}[1]{\varg^{max}\left(#1\right)} % Max votes on arguments
+
+%%% Votes on attacks
+\newcommand{\vatt}{V_{\att}}   % Function giving votes on attacks
+\newcommand{\vattpro}[1]{\vatt^+\left(#1\right)} % Pro votes on attacks
+\newcommand{\vattcon}[1]{\vatt^-\left(#1\right)} % Con votes on attacks
+
+%%% Attack relations
+% Attackers of a given argument
+\newcommand{\attackers}[1]{\att^\text{-}\left(#1\right)} 
+% Attackers of a given argument for the alternative framework F'
+\newcommand{\altattackers}[1]{\att^{\prime\text{-}}\left(#1\right)}
+% Ancestors of given argument according to the attack relation
+\newcommand{\ancestors}[1]{\att^*\left(#1\right)} 
+
+%%% Frameworks
+\newcommand{\safid}{F}               % A single SAF, given by identifier
+\newcommand{\safset}{\mathcal{F}}    % Set of all SAFs
+
+\newcommand{\saf}{\safid = \safbody} % Framework id and respective tuple
+\newcommand{\safbody}{\langle \args, \att, \varg, \vatt \rangle} % SAF tuple
+\newcommand{\oldsaf}{\safid = \oldsafbody} % Ex Framework id and respective tuple
+\newcommand{\oldsafbody}{\langle \args, \att, V \rangle} % old SAF tuple
+% Alternative framework, same as \safbody but with ' everywhere ;)
+\newcommand{\altsafbody}{\langle \args', \att', \varg', \vatt' \rangle} 
+
+%%% Semantics
+\newcommand{\semid}{\mathcal{S}}        % Semantic framework identifier
+% Semantic framework tuple
+\newcommand{\sembody}{\left\langle \valueset,\SAFand_1, \SAFand_2,\SAFor,\lnot,\tau \right\rangle}
+\newcommand{\semdef}{\semid = \sembody}     % Semantic framework id and tuple
+\newcommand{\semprod}[1]{\semid^\cdot_{#1}} % Product semantic framework
+\newcommand{\semsub}{\semid^\text{-}}       % Subtraction semantic framework
+\newcommand{\semmax}{\semid^\text{max}}     % Max semantic framework
+
+\newcommand{\sembodyNew}{\left\langle \valueset,\SAFand_1, \SAFand_2,\SAFor,\lnot,\tau, \omega \right\rangle} %New semantic body
+
+\newcommand{\SAFand}{\curlywedge}     % Logical and for SAF equations 
+\newcommand{\SAFor}{\curlyvee}        % Logical or for SAF equations
+\DeclareMathOperator*{\SAFOr}{\bigcurlyvee} % Big or notation, works as \sum
+                             %\varcurlyvee also works, but is smaller
+\DeclareMathOperator*{\SAFAnd}{\bigcurlywedge} % Big and notation, works as \sum
+
+\newcommand{\modelset}{\mathcal{M}}   % Set of all models
+
+
+%#% old commands
+\newcommand{\afit}{\textit{AF}}
+\newcommand{\af}{\afit = \langle \args, \att \rangle}
+\newcommand{\vote}{V}
+\newcommand{\sem}{\mathcal{S}}
+
+\newcommand{\ssv}{\mathcal{V}}
+\newcommand{\tv}{\mathcal{T}}
+\newcommand{\pv}{\mathcal{P}}
+\newcommand{\xv}{\mathcal{X}}
+\newcommand{\ev}{\mathcal{E}}
+
+\newcommand{\safit}{F}
+
+\newcommand{\tupd}{\curlywedge}
+\newcommand{\tatt}{\curlyvee}
+\newcommand{\Tatt}{\varcurlyvee}
+
+\newcommand{\argarray}{\{x_1, ..., x_n\}}
+
+\newcommand{\voteset}{\mathcal{V}}
+\newcommand{\vpro}{\vote^+}
+\newcommand{\vcon}{\vote^-}
+
+%%% Mappings
+\newcommand{\mapping}{\Phi}
+
+%%% Macro for framed graph
+\newlist{tikzitem}{itemize}{1}
+\setlist[tikzitem,1]{label=$\bullet$,nolistsep,leftmargin=*}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\title{Report on ongoing research}
+
+\maketitle
+
+
+
+
+
+
+\section{Main}
+
+
+\begin{definition}[Extended social argumentation frameworks]
+An \emph{extended social argumentation framework} is a 4-tuple $\saf$, where
+\begin{itemize}
+  \item $\args$ is the set of arguments,
+  \item $\att \subseteq \args \times \args$ is a binary attack relation between arguments,
+  \item $\varg : \args \to \nat \times \nat \times \nat$ stores the crowd's pro and con votes for each argument together with the maximum number of votes for an argument in the system.
+  \item $\vatt : \att \to \nat \times \nat$ stores the crowd's pro and con votes for each attack.
+\end{itemize}
+\end{definition}
+
+\begin{definition}[Semantic Framework]
+\label{def:semfram}
+A semantic framework is a 6-tuple \\$\sembodyNew$ where:
+
+\begin{itemize}
+  \item $\valueset$ is a totally ordered set with top and bottom elements $\top$, 
+$\bot$, containing all possible valuations of an argument. 
+
+  \item $\SAFand_\args,\SAFand_\att:\valueset\times \valueset\rightarrow \valueset$, are two binary algebraic operations used to restrict strengths to given values.
+  
+  \item $\SAFor:\valueset\times \valueset\rightarrow \valueset$, is a binary algebraic operation on argument valuations used to combine or aggregate valuations and strengths.
+  
+  \item $\lnot:\valueset\rightarrow \valueset$ is a unary algebraic operation for computing a restricting value corresponding to a given valuation or strength.
+  
+  \item $\tau : \nat \times \nat \times \nat^{+} \to L$ is a function that aggregates positive and negative votes and the maximum number of total votes into a \emph{social support} value.
+
+  \item $\omega: (\nat \times \nat)^n \rightarrow \nat^{+}$ is a function given a list of tuples of positive and negative votes that computes the maximum total number of votes amongst the tuples, where $n \in \nat^{+}$.
+\end{itemize}
+\end{definition}
+
+\begin{definition}
+\label{def:voteAgg}
+[Vote Aggregation]
+Given a totally ordered set $\valueset$ with top and bottom elements $\top$, $\bot$, a vote aggregation function $\tau$ over $\valueset$ is any function such that $\tau : \nat \times \nat \times \nat^{+} \to L$.
+\end{definition}
+
+\begin{notation}
+Let $\saf$ be an ESAF, $\sem = \sembodyNew$ a semantic framework and
+\begin{itemize}
+\item $\attackers{a} \triangleq \{a_i \in \args: (a_i, a) \in \att\}$ be the set of direct attackers of an argument $a \in \args$, 
+\item $\vargpro a \triangleq x$ denote the number of positive votes for argument $a$,
+\item $\vargcon a \triangleq y$ denote the number of negative votes for argument $a$,
+\item $v_{max} \triangleq \omega(\args)$  denote the parameter for the maximum total number of votes for an argument (attack relations are handled similarly).
+%\item $\vargtot a \triangleq z$ denote the number of maximum votes for an argument in the ESAF that argument $a$ belongs to, 
+\item $\tau(a, v_{max}) \triangleq \tau(V_{\mathcal{A}}(a), v_{max})= \tau(x, y, v_{max})$ denote the social support for an argument $a$ via utilizing a vote aggregation function $\tau$ (attack relations are handled similarly),%\tau(\vargpro a, \vargcon a, \vargtot a)
+\item $v^r(a) = \frac{\vargpro a}{\vargcon a}$ be a function that computes the ratio of positive votes to negative votes for argument $a$,
+\item $v^t(a) =\vargpro a + \vargcon a$ be a function that computes the total number of votes for argument $a$,
+%\item $\vattpro{(a, b)} \triangleq m$ denote the number of positive votes for an attack relation between arguments  $a$ and $b$,
+%\item  $ \vattcon{(a, b)}  \triangleq n$ denote the number of negative votes for an attack relation between arguments  $a$ and $b$,
+%\item $v_{rmax} \triangleq \omega(\args)$  denote the parameter for the maximum total number of votes for an argument.
+%\item  $\tau((a, b), v_{rmax}) \triangleq \tau(\vatt(a,b), v_{rmax}) = \tau(m, n, v_{rmax})$ denote the social support for an attack relation between arguments  $a$ and $b$ by utilizing a vote aggregation function $\tau$,
+\item$$\SAFOr_{x \in R} x \triangleq\left(\left(\left(  x_{1}\SAFor x_{2}\right) \SAFor...\right)\SAFor x_{n}\right)$$ $R=\left\{  x_{1},x_{2},...,x_{n}\right\}$ denote the aggregation of a multiset of elements of $\valueset$. 
+\end{itemize}
+\end{notation}
+
+\begin{definition}[Model]
+\label{def:model}
+  Let $\saf$ be a social argumentation framework, $\sem = \sembodyNew$ be a semantic framework. A $\semid$-model of $\safid$ is a total mapping $M : \args \rightarrow \valueset$ such that for all $a \in \args$,
+  $$\displaystyle M(a) = \tau(a, v_{max_{1}}) \SAFand_\args \lnot \SAFOr_{a_i \in \attackers{a}} \left(\tau\left((a_i, a), v_{max_{2}}\right) \SAFand_\att M\left(a_i\right)\right)$$
+\end{definition}
+
+
+
+\begin{definition}
+\label{def:enhVoteAgg}
+[Enhanced Vote Aggregation]
+\\ Enhanced vote aggregation function
+$\tau_{e}:
+\mathbb{N} \times \mathbb{N} \times \mathbb{N^{+}}
+\rightarrow\lbrack0,1]$ is a vote aggregation function such that
+\[
+\tau_{e}\left(  v^{+},v^{-}, v_{max}\right)  =
+\frac{v^{+}}{v^{+}+v^{-}+\frac{1}{v_{max}}}
+\]
+
+%where $v_{max}$ stands for the maximum number of votes for an argument in the system.
+\end{definition}
+
+{\color{red}
+\begin{property}
+\label{P1} [Absolute argument freeness] \\
+Let $\tau$ be a a vote aggregation function. We say that $\tau$ is 'absolute argument free' if
+\begin{center}
+$\forall n_1, n_2, n_3 \in \nat$, $\tau \left(n_1, n_2, n_3\right) \neq \top$. %$\tau \left( v^{+},v^{-}, v_{max}\right) \neq 1$
+\end{center}
+\end{property}
+}
+
+The gist of the property can be captured in a verbal context with the following sentence: \emph{No argument enjoys perfect Social Support.}  \\
+
+\begin{comment}
+\begin{proposition}
+Enhanced Vote Aggregation function is absolute argument free.%enjoys Property \ref{P1}.
+\end{proposition}
+\end{comment}
+
+\begin{proof} Trivial.
+\\
+Suppose an arbitrary $a \in \args$ of an extended social argumentation framework $\mathcal{F}$ with some well-behaved semantics $\mathcal{S}$:\\
+If $v^+ = 0$ then $\tau(a) = \tau(v^{+}, v^{-}, v_{max}) = 0 \le 1$. \\
+Else if $v^+ \neq 0$, then $v_{max} \neq 0$ and since $v_{max} \in \mathcal{Z}^+$, then $\frac{1}{v_{max}} > 0.$ Since denominator equals to the addition of the numerator and some $r \in {R}^+ $, denominator is bigger than the numerator and thus \\
+$ \frac{v^{+}}{v^{+}+v^{-}+\frac{1}{v_{max}}} = \tau(v^{+}, v^{-}, v_{max}) \le 1$.
+
+\end{proof}
+
+{\color{red}
+\begin{property}
+\label{P2}[Precedence of the vote ratio]\\
+Let $\tau$ be a a vote aggregation function. We say that $\tau$ is 'vote ratio precedent' if
+\begin{center}
+$\forall n_1, n_2, n_3, n_4, n_5 \in \nat$,  
+$\left( v^{r}(n_{1}, n_{2}) \ge v^{r}(n_{3}, n_{4}) \right) \implies \left( \tau(n_{1}, n_{2}, n_{5}) \ge \tau(n_{3}, n_{4}, n_{5}) \right)$. \\
+
+{\color{teal}
+just for convenience:
+
+ $\left( v^{r}(a_{1}) \ge v^{r}(a_{2}) \right) \implies \left( \tau(a_1, v_{max}) \ge \tau(a_2, v_{max}) \right)$. 
+}
+\end{center}
+
+\end{property}
+}
+
+The gist of the property can be captured in a verbal context with the following sentence: \emph{If the value of the ratio of positive votes to the total amount of votes is higher for an argument $a$ than an argument $b$; $a$'s social support value exceeds the social support of $b$.}  \\
+
+\begin{comment}
+\begin{conjecture}
+Vote Aggregation function enjoys Property \ref{P2}.
+\end{conjecture}
+
+\begin{proof}  [Sketch of proof] It should suffice to show that:
+\\
+For two arbitrary tuples $(v^+_1, v^-_1)$ and $(v^+_2, v^-_2)$, if $\frac{v^+_1} {v^-_1} \ge \frac{v^+_2} {v^-_2}$ then $\tau(v^+_1, v^-_1, v_{max}) \ge \tau(v^+_2, v^-_2, v_{max})$. 
+
+\end{proof}
+
+
+As an example for  $(v^+_1, v^-_1) = (10,0)$ and $(v^+_2, v^-_2) = (999,1)$, $v_{max} = 1000$ and $\tau(v^+_1, v^-_1, v_{max}) = 0.9999$ and  $\tau(v^+_2, v^-_2, v_{max}) = 0.9989$.
+\end{comment}
+
+
+{\color{red}
+\begin{property}
+\label{P3}[Precedence of the total number of votes] \\
+Let $\tau$ be a a vote aggregation function. We say that $\tau$ is 'vote ratio precedent' if
+\begin{center}
+ $\forall n_1, n_2, n_3, n_4, n_5 \in \nat$,  
+$\left( \left(v^{r}(n_{1}, n_{2}) = v^{r}(n_{3}, n_{4}) \right) \land  \left( v^{t}(n_{1}, n_{2}) \ge ( v^{t}(n_{3}, n_{4}) \right) \right) \implies \left( \tau((n_{1}, n_{2}, n_{5}) \ge \tau(n_{3}, n_{4}, n_{5}) \right)$. 
+\\
+{\color{teal}
+just for convenience:
+
+ $\left( \left(v^{r}(a_{1}) = v^{r}(a_{2}) \right) \land  \left( v^{t}(a_{1}) \ge ( v^{t}(a_{2}) \right) \right) \implies \left( \tau(a_1, v_{max}) \ge \tau(a_2, v_{max}) \right)$. 
+}
+\end{center}
+\end{property}
+}
+
+The gist of the property can be captured in a verbal context with the following sentence: \emph{When the ratios are equal, the function should return a higher social support value for the one with the higher number of total votes.}  \\
+
+\begin{comment}
+\begin{conjecture}
+Enhanced Vote Aggregation function enjoys Property \ref{P3}.
+\end{conjecture}
+
+\begin{proof}  [Sketch of proof] It should suffice to show that:
+\\
+ For two tuples $(v^+_1, v^-_1)$ and $(v^+_2, v^-_2)$, if $\frac{v^+_1} {v^-_1} = \frac{v^+_2} {v^-_2}$ and $( v^+_1 + v^-_1) \ge ( v^+_2 + v^-_2)$ then $\tau(v^+_1, v^-_1, v_{max}) \ge \tau(v^+_2, v^-_2, v_{max})$.
+\end{proof}
+
+
+As an example for $(v^+_1, v^-_1) = (45,5)$ and $(v^+_2, v^-_2) = (9,1)$, $v_{max} = 50$ and $\tau(v^+_1, v^-_1, v_{max}) = 0.8996$ and  $\tau(v^+_2, v^-_2, v_{max}) = 0.8982$
+
+\end{comment}
+
+
+\begin{comment}
+{\color{red}
+\begin{property}
+\label{pro:dim}[Reflecting the weight of total number of votes]
+Let $\saf$ be an extended social argumentation framework, $\semdef$ a well behaved semantics and $\mathcal{\mathcal{M}}^F_{\mathcal{S}}$ the set of all $\mathcal{S}$-models of $\mathcal{F}$.  For $a_1, a_2 \in \args$, where $\attackers {a_1} = \attackers {a_2}$, and $v^+_1 \neq 0$, $v^+_2 \neq 0$,
+\begin{center}
+ $\forall M \in \mathcal{\mathcal{M}}^F_{\mathcal{S}}$, $\left( \left(v^{r}(a_{1}) = v^{r}(a_{2}) \right) \land  \left( v^{t}(a_{1}) \neq ( v^{t}(a_{2}) \right) \right) \implies \left( M(a_{1}) \neq M(a_{2}) \right)$.
+\end{center}
+
+\end{property}
+}
+
+{\color{teal} REMARK: Prop 5 indeed violated by ESAFS for $\mathcal{A} = \{a_1, a_2\}$ and $\mathcal{R} = \{(a_1, a_1), (a_1, a_2) \}$ where ratios are the same but total number of votes differ, since $ M(a_{1}) = M(a_{2}) $.
+}
+
+The gist of the property can be captured in a verbal context with the following sentence: \emph{For two arguments sharing the same ratio of positive and negative votes and the same set of attackers, if the total number of votes differ from each other, so should the model evaluations.}  \\
+
+We show that the original proposal does not possess to this property.
+
+%{\color{red}
+\begin{proposition}
+ESAFs do not satisfy Property \ref{pro:dim}.
+\end{proposition}
+
+\begin{proof}
+It's enough to show a counter-example. Suppose  two arguments $a_1, a_2 \in \args$ of an extended social argumentation framework $\mathcal{F}$ with some well-behaved semantics $\mathcal{S}$ such that
+\begin{itemize}
+\item the arguments have some positive votes:  $v^+_1 \neq 0$, $v^+_2 \neq 0$  ,
+\item the arguments are unattacked:      $\attackers {a _1}= \emptyset$, $\attackers {a_2}= \emptyset$
+\item and the ratios of positive to negative votes are the same:  $ \left( \frac{v^+_1} {v^-_1} = \frac{v^+_2} {v^-_2} \right)$ ,
+\item and the total number of casted votes are distinct:   $\left(( v^+_1 + v^-_1) \neq ( v^+_2 + v^-_2) \right)$ ,
+\item however the model evaluations are the same: $M(v^+_1, v^-_1) = M(v^+_2, v^-_2)$. \\
+\end{itemize}
+
+
+Since $(\frac{v_1^+}{v_1^-} = \frac{v_2^+}{v_2^-})$, $\exists r \in \mathcal{R}^+$ s.t. $v_1^+ \cdot r = v_2^+$ and $v_1^- \cdot r = v_2^-$.
+
+ \begin{align*}
+    \tau(a_1) &= \frac{v^{+}_1}{v^{+}_1+v^{-}_1+\varepsilon} \cong  \frac{v^{+}_1}{v^{+}_1+v^{-}_1} \\%\text{, which by commutativity}\\
+         &=  \frac{v^{+}_1 \cdot r}{(v^{+}_1+v^{-}_1) \cdot r} =  \frac{v^{+}_1 \cdot r}{v^{+}_1 \cdot r + v^{-}_1 \cdot r  } \\
+         &= \frac{v^{+}_2}{v^{+}_2+v^{-}_2} \cong  \frac{v^{+}_2}{v^{+}_2+v^{-}_2+\varepsilon} \\
+         &= \tau(a_2)
+  \end{align*}
+
+We know that in ESAFS for any unattacked argument $a$, $\tau(a) = M(a)$ for $M \in \mathcal{M}^F_{\mathcal{S}}$. Thus
+\begin{center}
+$M(a_1) = \tau(a_1) = \tau(a_2) = M(a_2).$\\
+CONTRADICTION!
+\end{center}
+
+\end{proof}
+%}
+\end{comment}
+
+
+\end{document}
