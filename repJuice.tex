@@ -11,6 +11,7 @@
 \newtheorem{conjecture}{Conjecture}
 \newtheorem{example}{Example}
 \newtheorem{notation}{Notation}
+\newtheorem{theorem}{Theorem}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -439,5 +440,71 @@ CONTRADICTION!
 %}
 \end{comment}
 
+
+\begin{proposition}
+Enhanced Vote Aggregation function enjoys Property \ref{P1}.
+\end{proposition}
+
+\begin{proof} Trivial.
+\\
+Let $\mathcal{F}$ be an extended social argumentation framework with a semantic framework $\sem = \sembodyNew$ and  $a \in \args$.
+
+There are mainly two cases for a vote aggregation with respect to the value the constant $v_{max}$ takes.
+
+Firstly, if $v_{max} = 0$ then $\tau(a) = \tau(v^{+}, v^{-}) = 0 \le 1$. \\
+Else if $v^+ \neq 0$, then $v_{max} \neq 0$ and since $v_{max} \in \mathcal{Z}^+$, then $\frac{1}{v_{max}} > 0.$ Since the denominator of the sole term in the social support function is simply the sum of the numerator and some $r \in {R}^+ $, the denominator is bigger than the numerator and hence: \\
+\begin{center}
+$ \frac{v^{+}}{v^{+}+v^{-}+\frac{1}{v_{max}}} = \tau(v^{+}, v^{-}) \le 1$.
+\end{center}
+\end{proof}
+
+\section{Ongoing misc proofs}
+
+\begin{theorem} [Relation of ESAF models and stable extensions]
+\label{th:dung}
+  Let $\af$ be an Abstract Argumentation Framework and $\saf$ be an Extended Social Abstract Argumentation Framework. Let $\semdef$ and $\varg, \vatt$ such that
+  \begin{itemize}
+    \item $\SAFand = \SAFand_1 = \SAFand_2$
+    \item $\top \tatt \top = \top$ and  $\top \tatt \bot = \top$
+    \item $\forall_{x \in \args}\; \tau(x) = \top$
+    \item $\forall_{(x, y) \in \att}\; \tau((x,y)) = \top$
+    \item $l \tupd \neg \bot = l$, where $l \in L$
+    \item $l \tupd \neg \top = \bot$, where $l \in L$
+    \item $\top \tatt \top = \top$ and  $\top \tatt \bot = \top$
+  \end{itemize}
+  
+  Then, $\exists S = \argarray$ s.t. $S$ is a stable extension of $\textit{AF}$ iff  $\exists M \in\modelset$ in $F$ and $a \in S \Leftrightarrow M(a) = \top$ and $a \notin S \Leftrightarrow M(a) = \bot$.
+\end{theorem}
+
+\begin{proof}
+
+We start by  $\Leftarrow$ direction via using proof by contradiction. Suppose there is an argument $a \in \args$ such that $M(a) = \top$ for some $ M \in\modelset$ and for all stable extensions $S$ of $AF$,  $a \notin S$. The definition of stable semantics dictates $\exists a_{i} \in S$ s.t. $a_{i}\att{a}$. The model for $a$ is thus
+\begin{align*}
+M(a) &= \tau(a) \tupd \neg \Tatt_{a_i \in \attackers a} ((\tau((a_i, a)) \tupd M(a_i)) \\
+     &= \top \tupd \neg \left ((\tau((a_1, a)) \tupd M(a_1)) \tatt ... \tatt  ((\tau((a_i, a)) \tupd M(a_i)) \tatt ... \tatt  ((\tau((a_n, a)) \tupd M(a_n)) \right ) \\%\text{, being } a_i = b \in S \\
+     &= \top \tupd \neg \left (\top \tupd M(a_1)) \tatt ... \tatt  \top \tatt ... \tatt  (\top \tupd M(a_n)) \right ) \\
+     &= \top \tupd \neg \left ( M(a_1) \tatt ... \tatt \top \tatt ... \tatt M(a_n) \right ) \\
+     &= \top \tupd \neg \top \\
+     &= \bot
+\end{align*}
+
+Contradiction! Therefore, $a$ must be contained in $S$.
+
+
+We again use proof by contradiction for the $\Rightarrow$ direction. Assume  $\exists a \in S$ and $\forall M \in \modelset$, $ M(a) = \bot$. 
+
+Let us inspect the model function of $a$:
+
+\begin{align*}
+M(a) &= \tau(a) \tupd \neg \Tatt_{a_i \in \attackers a} ((\tau((a_i, a)) \tupd M(a_i)) \\
+\bot  &= \top \tupd \neg \left ((\tau((a_1, a)) \tupd M(a_1)) \tatt ... \tatt  ((\tau((a_n, a)) \tupd M(a_n)) \right ) \\%\text{, being } a_i = b \in S \\
+\bot     &= \top \tupd \neg \left (\top \tupd M(a_1)) \tatt ...  \tatt  (\top \tupd M(a_n)) \right ) \\
+\bot    &= \top \tupd \neg \left ( M(a_1) \tatt ... \tatt M(a_n) \right ) \\
+\bot    &=  \neg \left ( M(a_1) \tatt ...  \tatt M(a_n) \right ) \\
+\top    &=    M(a_1) \tatt ...  \tatt M(a_n) \\
+\end{align*}
+Thus for some $i \in[1..n]$, $M(a_i) = \top$. And so it follows that $\exists {a_i} \in \args$ s.t. $a_i\att{a}$. But since $a \in S$, $\exists_{b\in S}\; b\att{a_i}$. Which results into $M(a_i) = \bot$. Contradiction!
+
+\end{proof}
 
 \end{document}
