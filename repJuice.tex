@@ -170,7 +170,7 @@
 
 \begin{document}
 
-\title{Report on ongoing research}
+\title{Report regarding the ongoing research}
 
 \maketitle
 
@@ -260,16 +260,20 @@ whenever $\vatt ((a, b)) = (x, y)$,
   $$\displaystyle M(a) = \tau(a) \SAFand_\args \lnot \SAFOr_{a_i \in \attackers{a}} \left(\tau\left((a_i, a)\right) \SAFand_\att M\left(a_i\right)\right)$$
 \end{definition}
 
+\begin{notation}
+Whenever a single spesific system $\saf$ with some semantic framework $\sem = \sembodyNew$ is considered, we implicitly consider $v_{emax}$ and $v_{rmax}$ are constants and drop them from the respective function's argument list. Thus we update the two function definitions from Notation 1 as follows: $\tau(a) \triangleq \tau(V_{\mathcal{A}}(a))$ and $\tau((a, b)) \triangleq \tau(V_{\mathcal{R}}((a, b)))$, where $a \in \mathbb{A}$.
+\end{notation}
+
 
 \begin{definition}
 \label{def:enhVoteAgg}
 [Enhanced Vote Aggregation]
 \\ Enhanced vote aggregation function
 $\tau_{e}:
-(\mathbb{N} \times \mathbb{N}) \times \mathbb{N}
+\mathbb{N} \times \mathbb{N}
 \rightarrow\lbrack0,1]$ is the vote aggregation function such that
 \[
-\tau_{e}\left(  (v^{+},v^{-}), v_{max}\right)  = \left\{
+\tau_{e}  (v^{+},v^{-})  = \left\{
 \begin{array}
 [c]{lll}
 0 &  & v_{max}=0\\
@@ -286,7 +290,7 @@ $\tau_{e}:
 \label{P1} [Absolute argument freeness] \\
 Let $\tau$ be a a vote aggregation function given $\valueset$. We say that $\tau$ is 'absolute argument free' if
 \begin{center}
-$\forall n_1, n_2, n_3 \in \nat$, $\tau \left((n_1, n_2), n_3\right) \neq \top$. %$\tau \left( v^{+},v^{-}, v_{max}\right) \neq 1$
+$\forall n_1, n_2 \in \nat$, $\tau (n_1, n_2) \neq \top$. %$\tau \left( v^{+},v^{-}, v_{max}\right) \neq 1$
 \end{center}
 \end{property}
 %}
@@ -315,17 +319,16 @@ $ \frac{v^{+}}{v^{+}+v^{-}+\frac{1}{v_{max}}} = \tau(v^{+}, v^{-}, v_{max}) \le 
 \label{P2}[Precedence of the vote ratio]\\
 Let $\tau$ be a a vote aggregation function given $\valueset$. We say that $\tau$ is 'vote ratio precedent' if
 \begin{center}
-$\forall n_1, n_2, n_3, n_4, n_5 \in \nat$,  
-$\left( v^{r}(n_{1}, n_{2}) \ge v^{r}(n_{3}, n_{4}) \right) \implies \left( \tau((n_{1}, n_{2}), n_{5}) \ge \tau((n_{3}, n_{4}), n_{5}) \right)$. \\
+$\forall n_1, n_2, n_3, n_4 \in \nat$,  \\
+$\left( v^{r}(n_{1}, n_{2}) \ge v^{r}(n_{3}, n_{4}) \right) \implies \left( \tau(n_{1}, n_{2}) \ge \tau(n_{3}, n_{4}) \right)$. \\
 
-\begin{comment}
 {\color{teal}
 just for convenience:
 
  $\left( v^{r}(a_{1}) \ge v^{r}(a_{2}) \right) \implies \left( \tau(a_1) \ge \tau(a_2) \right)$. 
 }
-\end{comment}
 \end{center}
+
 \end{property}
 %}
 
@@ -352,17 +355,14 @@ As an example for  $(v^+_1, v^-_1) = (10,0)$ and $(v^+_2, v^-_2) = (999,1)$, $v_
 \label{P3}[Precedence of the total number of votes] \\
 Let $\tau$ be a a vote aggregation function given $\valueset$. We say that $\tau$ is 'total votes precedent' if
 \begin{center}
- $\forall n_1, n_2, n_3, n_4, n_5 \in \nat$,  
-$\left( \left(v^{r}(n_{1}, n_{2}) = v^{r}(n_{3}, n_{4}) \right) \land  \left( v^{t}(n_{1}, n_{2}) \ge ( v^{t}(n_{3}, n_{4}) \right) \right) \implies \left( \tau((n_{1}, n_{2}), n_{5}) \ge \tau((n_{3}, n_{4}), n_{5}) \right)$. 
-\begin{comment}
+ $\forall n_1, n_2, n_3, n_4 \in \nat$,  \\
+$\left( \left(v^{r}(n_{1}, n_{2}) = v^{r}(n_{3}, n_{4}) \right) \land  \left( v^{t}(n_{1}, n_{2}) \ge ( v^{t}(n_{3}, n_{4}) \right) \right) \implies \left( \tau(n_{1}, n_{2}) \ge \tau(n_{3}, n_{4}) \right)$. 
 \\
 {\color{teal}
 just for convenience:
 
  $\left( \left(v^{r}(a_{1}) = v^{r}(a_{2}) \right) \land  \left( v^{t}(a_{1}) \ge ( v^{t}(a_{2}) \right) \right) \implies \left( \tau(a_1) \ge \tau(a_2) \right)$. 
 }
-\end{comment}
-
 \end{center}
 \end{property}
 %}
