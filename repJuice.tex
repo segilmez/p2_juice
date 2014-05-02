@@ -478,7 +478,11 @@ $ \frac{v^{+}}{v^{+}+v^{-}+\frac{1}{v_{max}}} = \tau(v^{+}, v^{-}) \le 1$.
 
 \begin{proof}
 
-We start by  $\Leftarrow$ direction via using proof by contradiction. Suppose there is an argument $a \in \args$ such that $M(a) = \top$ for some $ M \in\modelset$ and for all stable extensions $S$ of $AF$,  $a \notin S$. The definition of stable semantics dictates $\exists a_{i} \in S$ s.t. $a_{i}\att{a}$. The model for $a$ is thus
+We start by  $\Leftarrow$ direction via using proof by contradiction. 
+
+Assume $M \in\modelset$ from $F$. Suppose for an arbitrary argument $a \in \args$ s.t. $M(a) = \top$, $a \notin S$  for all stable extensions $S$ of $AF$.
+
+The definition of stable semantics dictates $\exists a_{i} \in S$ s.t. $a_{i}\att{a}$. The model for $a$ is thus
 \begin{align*}
 M(a) &= \tau(a) \tupd \neg \Tatt_{a_i \in \attackers a} ((\tau((a_i, a)) \tupd M(a_i)) \\
      &= \top \tupd \neg \left ((\tau((a_1, a)) \tupd M(a_1)) \tatt ... \tatt  ((\tau((a_i, a)) \tupd M(a_i)) \tatt ... \tatt  ((\tau((a_n, a)) \tupd M(a_n)) \right ) \\%\text{, being } a_i = b \in S \\
@@ -488,13 +492,16 @@ M(a) &= \tau(a) \tupd \neg \Tatt_{a_i \in \attackers a} ((\tau((a_i, a)) \tupd M
      &= \bot
 \end{align*}
 
-Contradiction! Therefore, $a$ must be contained in $S$.
+\emph{Contradiction}. Therefore, $a$ must be contained in $S$.
 
+\vspace{10 mm}
 
-We again use proof by contradiction for the $\Rightarrow$ direction. Assume  $\exists a \in S$ and $\forall M \in \modelset$, $ M(a) = \bot$. 
+We again use proof by contradiction for the $\Rightarrow$ direction. 
+
+Assume $S$ is a stable extension for $F.$
+Suppose  for an arbitrary argument $ a \in S$ that $\forall M \in \modelset$, $ M(a) = \bot$. 
 
 Let us inspect the model function of $a$:
-
 \begin{align*}
 M(a) &= \tau(a) \tupd \neg \Tatt_{a_i \in \attackers a} ((\tau((a_i, a)) \tupd M(a_i)) \\
 \bot  &= \top \tupd \neg \left ((\tau((a_1, a)) \tupd M(a_1)) \tatt ... \tatt  ((\tau((a_n, a)) \tupd M(a_n)) \right ) \\%\text{, being } a_i = b \in S \\
@@ -503,7 +510,7 @@ M(a) &= \tau(a) \tupd \neg \Tatt_{a_i \in \attackers a} ((\tau((a_i, a)) \tupd M
 \bot    &=  \neg \left ( M(a_1) \tatt ...  \tatt M(a_n) \right ) \\
 \top    &=    M(a_1) \tatt ...  \tatt M(a_n) \\
 \end{align*}
-Thus for some $i \in[1..n]$, $M(a_i) = \top$. And so it follows that $\exists {a_i} \in \args$ s.t. $a_i\att{a}$. But since $a \in S$, $\exists_{b\in S}\; b\att{a_i}$. Which results into $M(a_i) = \bot$. Contradiction!
+Thus it can be concluded that for some $i \in[1..n]$, $M(a_i) = \top$. And so it follows that $\exists {a_i} \in \args$ s.t. $a_i\att{a}$. But since $a \in S$, $\exists_{b\in S}\; b\att{a_i}$. Which results into $M(a_i) = \bot$. Consequently, the calculation led to a \emph{contradiction}.
 
 \end{proof}
 
