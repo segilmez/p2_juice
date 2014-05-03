@@ -171,16 +171,10 @@
 
 \begin{document}
 
-\title{Report regarding the ongoing research}
+%\title{Report regarding the ongoing research}
+%\maketitle
 
-\maketitle
-
-
-
-
-
-
-\section{Main}
+%\section{Main}
 
 
 \begin{definition}[Extended social argumentation frameworks]
@@ -196,7 +190,7 @@ An \emph{extended social argumentation framework} is a 4-tuple $\saf$, where
 \begin{definition}
 \label{def:voteAgg}
 [Vote Aggregation Function]
-Given a totally ordered set $\valueset$ with top and bottom elements $\top$, $\bot$, a vote aggregation function $\tau$ over $\valueset$ is any function such that $\tau :\nat^{2} \times \nat \to L$.
+Given a totally ordered set $\valueset$ with top and bottom elements $\top$, $\bot$, a vote aggregation function $\tau$ over $\valueset$ is any function such that $\tau: \nat \times \nat \times {2}^{\nat \times \nat} \to L$.
 \end{definition}
 
 
@@ -217,7 +211,6 @@ $\bot$, containing all possible valuations of an argument.
   
   \item $\tau$ is a vote aggregation function, which aggregates positive and negative votes and the maximum number of total votes into a social support value.
 
- % \item $\omega: (\nat \times \nat)^n \rightarrow \nat^{+}$ is a function given a list of tuples of positive and negative votes that computes the maximum total number of votes amongst the tuples, where $n \in \nat^{+}$.
 \end{itemize}
 \end{definition}
 
@@ -226,292 +219,64 @@ $\bot$, containing all possible valuations of an argument.
 Let $\saf$ be an ESAF, $\sem = \sembodyNew$ a semantic framework. Then, let
 \begin{itemize}
 \item $\attackers{a} \triangleq \{a_i \in \args: (a_i, a) \in \att\}$ be the set of direct attackers of an argument $a \in \args$, 
+\item $v^r: \nat \times \nat \to \real$ be a function s.t. $v^r(v^{+}, v^{-}) \triangleq \frac{v^{+}}{v^{-}}$ where $v^{+}, v^{-} \in \mathbb{N}$,
+\item $v^t: \nat \times \nat \to \nat$ be a function s.t. $v^t(v^{+}, v^{-}) \triangleq v^{+} + v^{-}$ where $v^{+}, v^{-} \in \mathbb{N}$, 
 \item 
 \begin{itemize}
 \item $\vargpro a \triangleq x$ denote the number of positive votes for argument $a$,
 \item $\vargcon a \triangleq y$ denote the number of negative votes for argument $a$,
 \end{itemize}
 whenever $\varg (a) = (x, y)$,
-%\item $\vargtot a \triangleq z$ denote the number of maximum votes for an argument in the ESAF that argument $a$ belongs to, 
-\item $v^r: \nat \times \nat \to \nat$ be a function s.t. $v^r(v^{+}, v^{-}) \triangleq \frac{v^{+}}{v^{-}}$ where $v^{+}, v^{-} \in \mathbb{N}$, that denotes the ratio of positive votes to negative votes for some argument or attack relation,
-%\item $v^r(\vargpro a, \vargcon a) = \frac{\vargpro a}{\vargcon a}$ denote the ratio of positive votes to negative votes for argument $a$,
-\item $v^t: \nat \times \nat \to \nat$ be a function s.t. $v^t(v^{+}, v^{-}) \triangleq v^{+} + v^{-}$ where $v^{+}, v^{-} \in \mathbb{N}$, that denotes the total number of votes for some argument or attack relation,
-%\item $v^t(\vargpro a, \vargcon a) =\vargpro a + \vargcon a$ denote the total number of votes for argument $a$,
-\item $v_{emax} \triangleq v^t(\varg(b))$ where $b \in \args$ and $\forall a \in \args$, $v^t(\varg(b)) \ge v^t(\varg(a))$ 
 \\  denote the maximum total number of votes for an argument,
-\item $\tau(a) \triangleq \tau(V_{\mathcal{A}}(a), v_{emax})$ denote the social support for an argument $a$ via utilizing a vote aggregation function $\tau$,%\tau(\vargpro a, \vargcon a, \vargtot a)
+\item $p_{\mathcal{A}}: 2^\args \to 2^{\nat \times \nat}$ be a function s.t. $p_{\mathcal{A}}(\mathcal{B}) = \{\varg(a)$ $|$ $a \in \mathcal{B}\}$ where $\mathcal{B} \subseteq \args$
+\item $\tau(a, \mathcal{B}) \triangleq \tau(V_{\mathcal{A}}(a), p_{\mathbb{A}}(\mathcal{B}))$ denote the social support for an argument $a$ via utilizing a vote aggregation function $\tau$ (where $\mathcal{B} \subseteq \args$),
 \item
 \begin{itemize}
 \item $\vattpro{(a, b)} \triangleq x$ denote the number of positive votes for an attack relation between arguments  $a$ and $b$,
 \item  $ \vattcon{(a, b)} \triangleq y$ denote the number of negative votes for an attack relation between arguments  $a$ and $b$,
 \end{itemize}
 whenever $\vatt ((a, b)) = (x, y)$,
-\item $v_{rmax} \triangleq v^t(\vatt(y))$ where $y \in \att$ and $\forall x \in \att$, $v^t(\vatt(y)) \ge v^t(\vatt(x))$ 
 \\  denote the maximum total number of votes for an attack relation,
-\item $\tau((a, b)) \triangleq \tau(V_{\mathcal{R}}((a, b)), v_{rmax})$ denote the social support for an attack relation between arguments  $a$ and $b$ via utilizing a vote aggregation function $\tau$,%\tau(\vargpro a, \vargcon a, \vargtot a)
-%\item $v_{rmax} \triangleq \omega(\args)$  denote the parameter for the maximum total number of votes for an argument.
-%\item  $\tau((a, b), v_{rmax}) \triangleq \tau(\vatt(a,b), v_{rmax}) = \tau(m, n, v_{rmax})$ denote the social support for an attack relation between arguments  $a$ and $b$ by utilizing a vote aggregation function $\tau$,
+\item $p_{\mathcal{R}}: 2^\att \to 2^{\nat \times \nat}$ be a function s.t. $p_{\mathcal{R}}(\mathcal{T}) = \{\vatt((a, b))$ $|$ $((a, b)) \in \mathcal{T}\}$ where $\mathcal{T} \subseteq \att$,
+\item $\tau((a, b), \mathcal{T}) \triangleq \tau(V_{\mathcal{R}}((a, b)), p_{\mathcal{R}}(\mathcal{T}))$ denote the social support for an attack relation between arguments  $a$ and $b$ via utilizing a vote aggregation function $\tau$ (where $\mathcal{T} \subseteq \att$),
 \item$$\SAFOr_{x \in R} x \triangleq\left(\left(\left(  x_{1}\SAFor x_{2}\right) \SAFor...\right)\SAFor x_{n}\right)$$ $R=\left\{  x_{1},x_{2},...,x_{n}\right\}$ denote the aggregation of a multiset of elements of $\valueset$. 
+\item $bimax: \nat \times \nat \to \nat$ be a function s.t.
+\[ bimax (x, y)  = \left\{
+\begin{array}
+[c]{lll}
+x &  & x \geq y\\
+y &  & \text{otherwise}%
+\end{array}
+\right. \]
+
+\item $max: 2^{\nat} \to \nat$ be a function s.t. \\$max(X) \triangleq bimax(...bimax(bimax(bimax(x_1, x_2), x_3)...), x_n)$ where $x_{i} \in X$ for $i = [1..n]$.
+
 \end{itemize}
 \end{notation}
 
-\begin{definition}[Model]
+\begin{definition}[Model] $\mathbb{L}$
 \label{def:model}
   Let $\saf$ be a social argumentation framework, $\sem = \sembodyNew$ be a semantic framework. A $\semid$-model of $\safid$ is a total mapping $M : \args \rightarrow \valueset$ such that for all $a \in \args$,
   $$\displaystyle M(a) = \tau(a) \SAFand_\args \lnot \SAFOr_{a_i \in \attackers{a}} \left(\tau\left((a_i, a)\right) \SAFand_\att M\left(a_i\right)\right)$$
 \end{definition}
-
-\begin{notation}
-Whenever a single spesific system $\saf$ with some semantic framework $\sem = \sembodyNew$ is considered, we implicitly consider $v_{emax}$ and $v_{rmax}$ are constants and drop them from the respective function's argument list. Thus we update the two function definitions from Notation 1 as follows: $\tau(a) \triangleq \tau(V_{\mathcal{A}}(a))$ and $\tau((a, b)) \triangleq \tau(V_{\mathcal{R}}((a, b)))$, where $a \in \mathbb{A}$.
-\end{notation}
 
 
 \begin{definition}
 \label{def:enhVoteAgg}
 [Enhanced Vote Aggregation]
 \\ Enhanced vote aggregation function
-$\tau_{e}:
-\mathbb{N} \times \mathbb{N}
-\rightarrow\lbrack0,1]$ is the vote aggregation function such that
+$\tau_{e}:\nat \times \nat \times {2}^{\nat \times \nat} \rightarrow\lbrack0,1]$ is the vote aggregation function such that
 \[
-\tau_{e}  (v^{+},v^{-})  = \left\{
+\tau_{e}  (v^{+},v^{-}, \mathcal{X})  = \left\{
 \begin{array}
 [c]{lll}
 0 &  & v_{max}=0\\
-\frac{v^{+}}{v^{+}+v^{-}+\frac{1}{v_{max}}} &  & \text{otherwise}%
+\frac{v^{+}}{v^{+}+v^{-}+\frac{1}{max(\mathcal{X})}} &  & \text{otherwise}%
 \end{array}
 \right.
 \]
 %\tau_{e}\left(  v^{+},v^{-}, v_{max}\right)  =
 %where $v_{max}$ stands for the maximum number of votes for an argument in the system.
 \end{definition}
-
-%{\color{red}
-\begin{property}
-\label{P1} [Absolute argument freeness] \\
-Let $\tau$ be a a vote aggregation function given $\valueset$. We say that $\tau$ is 'absolute argument free' if
-\begin{center}
-$\forall n_1, n_2 \in \nat$, $\tau (n_1, n_2) \neq \top$. %$\tau \left( v^{+},v^{-}, v_{max}\right) \neq 1$
-\end{center}
-\end{property}
-%}
-
-The gist of the property can be captured in a verbal context with the following sentence: \emph{No argument enjoys perfect Social Support.}  \\
-
-\begin{comment}
-\begin{proposition}
-Enhanced Vote Aggregation function is absolute argument free.%enjoys Property \ref{P1}.
-\end{proposition}
-
-
-\begin{proof} Trivial.
-\\
-Suppose an arbitrary $a \in \args$ of an extended social argumentation framework $\mathcal{F}$ with some well-behaved semantics $\mathcal{S}$:\\
-If $v^+ = 0$ then $\tau(a) = \tau(v^{+}, v^{-}, v_{max}) = 0 \le 1$. \\
-Else if $v^+ \neq 0$, then $v_{max} \neq 0$ and since $v_{max} \in \mathcal{Z}^+$, then $\frac{1}{v_{max}} > 0.$ Since denominator equals to the addition of the numerator and some $r \in {R}^+ $, denominator is bigger than the numerator and thus \\
-$ \frac{v^{+}}{v^{+}+v^{-}+\frac{1}{v_{max}}} = \tau(v^{+}, v^{-}, v_{max}) \le 1$.
-
-\end{proof}
-\end{comment}
-
-
-%{\color{red}
-\begin{property}
-\label{P2}[Precedence of the vote ratio]\\
-Let $\tau$ be a a vote aggregation function given $\valueset$. We say that $\tau$ is 'vote ratio precedent' if
-\begin{center}
-$\forall n_1, n_2, n_3, n_4 \in \nat$,  \\
-$\left( v^{r}(n_{1}, n_{2}) \ge v^{r}(n_{3}, n_{4}) \right) \implies \left( \tau(n_{1}, n_{2}) \ge \tau(n_{3}, n_{4}) \right)$. \\
-
-{\color{teal}
-just for convenience:
-
- $\left( v^{r}(a_{1}) \ge v^{r}(a_{2}) \right) \implies \left( \tau(a_1) \ge \tau(a_2) \right)$. 
-}
-\end{center}
-
-\end{property}
-%}
-
-The gist of the property can be captured in a verbal context with the following sentence: \emph{If the value of the ratio of positive votes to the negative votes is higher for an argument $a$ than an argument $b$; $a$'s social support value exceeds the social support of $b$.}  \\
-
-\begin{comment}
-\begin{conjecture}
-Vote Aggregation function enjoys Property \ref{P2}.
-\end{conjecture}
-
-\begin{proof}  [Sketch of proof] It should suffice to show that:
-\\
-For two arbitrary tuples $(v^+_1, v^-_1)$ and $(v^+_2, v^-_2)$, if $\frac{v^+_1} {v^-_1} \ge \frac{v^+_2} {v^-_2}$ then $\tau(v^+_1, v^-_1, v_{max}) \ge \tau(v^+_2, v^-_2, v_{max})$. 
-
-\end{proof}
-
-
-As an example for  $(v^+_1, v^-_1) = (10,0)$ and $(v^+_2, v^-_2) = (999,1)$, $v_{max} = 1000$ and $\tau(v^+_1, v^-_1, v_{max}) = 0.9999$ and  $\tau(v^+_2, v^-_2, v_{max}) = 0.9989$.
-\end{comment}
-
-
-%{\color{red}
-\begin{property}
-\label{P3}[Precedence of the total number of votes] \\
-Let $\tau$ be a a vote aggregation function given $\valueset$. We say that $\tau$ is 'total votes precedent' if
-\begin{center}
- $\forall n_1, n_2, n_3, n_4 \in \nat$,  \\
-$\left( \left(v^{r}(n_{1}, n_{2}) = v^{r}(n_{3}, n_{4}) \right) \land  \left( v^{t}(n_{1}, n_{2}) \ge ( v^{t}(n_{3}, n_{4}) \right) \right) \implies \left( \tau(n_{1}, n_{2}) \ge \tau(n_{3}, n_{4}) \right)$. 
-\\
-{\color{teal}
-just for convenience:
-
- $\left( \left(v^{r}(a_{1}) = v^{r}(a_{2}) \right) \land  \left( v^{t}(a_{1}) \ge ( v^{t}(a_{2}) \right) \right) \implies \left( \tau(a_1) \ge \tau(a_2) \right)$. 
-}
-\end{center}
-\end{property}
-%}
-
-The gist of the property can be captured in a verbal context with the following sentence: \emph{When the ratios are equal, the function should return a higher social support value for the one with the higher number of total votes.}  \\
-
-\begin{comment}
-\begin{conjecture}
-Enhanced Vote Aggregation function enjoys Property \ref{P3}.
-\end{conjecture}
-
-\begin{proof}  [Sketch of proof] It should suffice to show that:
-\\
- For two tuples $(v^+_1, v^-_1)$ and $(v^+_2, v^-_2)$, if $\frac{v^+_1} {v^-_1} = \frac{v^+_2} {v^-_2}$ and $( v^+_1 + v^-_1) \ge ( v^+_2 + v^-_2)$ then $\tau(v^+_1, v^-_1, v_{max}) \ge \tau(v^+_2, v^-_2, v_{max})$.
-\end{proof}
-
-
-As an example for $(v^+_1, v^-_1) = (45,5)$ and $(v^+_2, v^-_2) = (9,1)$, $v_{max} = 50$ and $\tau(v^+_1, v^-_1, v_{max}) = 0.8996$ and  $\tau(v^+_2, v^-_2, v_{max}) = 0.8982$
-
-\end{comment}
-
-
-\begin{comment}
-%{\color{red}
-\begin{property}
-\label{pro:dim}[Reflecting the weight of total number of votes]
-Let $\saf$ be an extended social argumentation framework, $\semdef$ a well behaved semantics and $\mathcal{\mathcal{M}}^F_{\mathcal{S}}$ the set of all $\mathcal{S}$-models of $\mathcal{F}$.  For $a_1, a_2 \in \args$, where $\attackers {a_1} = \attackers {a_2}$, and $v^+_1 \neq 0$, $v^+_2 \neq 0$,
-\begin{center}
- $\forall M \in \mathcal{\mathcal{M}}^F_{\mathcal{S}}$, $\left( \left(v^{r}(a_{1}) = v^{r}(a_{2}) \right) \land  \left( v^{t}(a_{1}) \neq ( v^{t}(a_{2}) \right) \right) \implies \left( M(a_{1}) \neq M(a_{2}) \right)$.
-\end{center}
-
-\end{property}
-%}
-
-{\color{teal} REMARK: Prop 5 indeed violated by ESAFS for $\mathcal{A} = \{a_1, a_2\}$ and $\mathcal{R} = \{(a_1, a_1), (a_1, a_2) \}$ where ratios are the same but total number of votes differ, since $ M(a_{1}) = M(a_{2}) $.
-}
-
-The gist of the property can be captured in a verbal context with the following sentence: \emph{For two arguments sharing the same ratio of positive and negative votes and the same set of attackers, if the total number of votes differ from each other, so should the model evaluations.}  \\
-
-We show that the original proposal does not possess to this property.
-
-%{\color{red}
-\begin{proposition}
-ESAFs do not satisfy Property \ref{pro:dim}.
-\end{proposition}
-
-\begin{proof}
-It's enough to show a counter-example. Suppose  two arguments $a_1, a_2 \in \args$ of an extended social argumentation framework $\mathcal{F}$ with some well-behaved semantics $\mathcal{S}$ such that
-\begin{itemize}
-\item the arguments have some positive votes:  $v^+_1 \neq 0$, $v^+_2 \neq 0$  ,
-\item the arguments are unattacked:      $\attackers {a _1}= \emptyset$, $\attackers {a_2}= \emptyset$
-\item and the ratios of positive to negative votes are the same:  $ \left( \frac{v^+_1} {v^-_1} = \frac{v^+_2} {v^-_2} \right)$ ,
-\item and the total number of casted votes are distinct:   $\left(( v^+_1 + v^-_1) \neq ( v^+_2 + v^-_2) \right)$ ,
-\item however the model evaluations are the same: $M(v^+_1, v^-_1) = M(v^+_2, v^-_2)$. \\
-\end{itemize}
-
-
-Since $(\frac{v_1^+}{v_1^-} = \frac{v_2^+}{v_2^-})$, $\exists r \in \mathcal{R}^+$ s.t. $v_1^+ \cdot r = v_2^+$ and $v_1^- \cdot r = v_2^-$.
-
- \begin{align*}
-    \tau(a_1) &= \frac{v^{+}_1}{v^{+}_1+v^{-}_1+\varepsilon} \cong  \frac{v^{+}_1}{v^{+}_1+v^{-}_1} \\%\text{, which by commutativity}\\
-         &=  \frac{v^{+}_1 \cdot r}{(v^{+}_1+v^{-}_1) \cdot r} =  \frac{v^{+}_1 \cdot r}{v^{+}_1 \cdot r + v^{-}_1 \cdot r  } \\
-         &= \frac{v^{+}_2}{v^{+}_2+v^{-}_2} \cong  \frac{v^{+}_2}{v^{+}_2+v^{-}_2+\varepsilon} \\
-         &= \tau(a_2)
-  \end{align*}
-
-We know that in ESAFS for any unattacked argument $a$, $\tau(a) = M(a)$ for $M \in \mathcal{M}^F_{\mathcal{S}}$. Thus
-\begin{center}
-$M(a_1) = \tau(a_1) = \tau(a_2) = M(a_2).$\\
-CONTRADICTION!
-\end{center}
-
-\end{proof}
-%}
-\end{comment}
-
-
-\begin{proposition}
-Enhanced Vote Aggregation function enjoys Property \ref{P1}.
-\end{proposition}
-
-\begin{proof} Trivial.
-\\
-Let $\mathcal{F}$ be an extended social argumentation framework with a semantic framework $\sem = \sembodyNew$ and  $a \in \args$.
-
-There are mainly two cases for a vote aggregation with respect to the value the constant $v_{max}$ takes.
-
-Firstly, if $v_{max} = 0$ then $\tau(a) = \tau(v^{+}, v^{-}) = 0 \le 1$. \\
-Else if $v^+ \neq 0$, then $v_{max} \neq 0$ and since $v_{max} \in \mathcal{Z}^+$, then $\frac{1}{v_{max}} > 0.$ Since the denominator of the sole term in the social support function is simply the sum of the numerator and some $r \in {R}^+ $, the denominator is bigger than the numerator and hence: \\
-\begin{center}
-$ \frac{v^{+}}{v^{+}+v^{-}+\frac{1}{v_{max}}} = \tau(v^{+}, v^{-}) \le 1$.
-\end{center}
-\end{proof}
-
-\section{Ongoing misc proofs}
-
-\begin{theorem} [Relation of ESAF models and stable extensions]
-\label{th:dung}
-  Let $\af$ be an Abstract Argumentation Framework and $\saf$ be an Extended Social Abstract Argumentation Framework. Let $\semdef$ and $\varg, \vatt$ such that
-  \begin{itemize}
-    \item $\SAFand = \SAFand_1 = \SAFand_2$
-    \item $\top \tatt \top = \top$ and  $\top \tatt \bot = \top$
-    \item $\forall_{x \in \args}\; \tau(x) = \top$
-    \item $\forall_{(x, y) \in \att}\; \tau((x,y)) = \top$
-    \item $l \tupd \neg \bot = l$, where $l \in L$
-    \item $l \tupd \neg \top = \bot$, where $l \in L$
-    \item $\top \tatt \top = \top$ and  $\top \tatt \bot = \top$
-  \end{itemize}
-  
-  Then, $\exists S = \argarray$ s.t. $S$ is a stable extension of $\textit{AF}$ iff  $\exists M \in\modelset$ in $F$ and $a \in S \Leftrightarrow M(a) = \top$ and $a \notin S \Leftrightarrow M(a) = \bot$.
-\end{theorem}
-
-\begin{proof}
-
-We start by  $\Leftarrow$ direction via using proof by contradiction. 
-
-Assume $M \in\modelset$ from $F$. Suppose for an arbitrary argument $a \in \args$ s.t. $M(a) = \top$, $a \notin S$  for all stable extensions $S$ of $AF$.
-
-The definition of stable semantics dictates $\exists a_{i} \in S$ s.t. $a_{i}\att{a}$. The model for $a$ is thus
-\begin{align*}
-M(a) &= \tau(a) \tupd \neg \Tatt_{a_i \in \attackers a} ((\tau((a_i, a)) \tupd M(a_i)) \\
-     &= \top \tupd \neg \left ((\tau((a_1, a)) \tupd M(a_1)) \tatt ... \tatt  ((\tau((a_i, a)) \tupd M(a_i)) \tatt ... \tatt  ((\tau((a_n, a)) \tupd M(a_n)) \right ) \\%\text{, being } a_i = b \in S \\
-     &= \top \tupd \neg \left (\top \tupd M(a_1)) \tatt ... \tatt  \top \tatt ... \tatt  (\top \tupd M(a_n)) \right ) \\
-     &= \top \tupd \neg \left ( M(a_1) \tatt ... \tatt \top \tatt ... \tatt M(a_n) \right ) \\
-     &= \top \tupd \neg \top \\
-     &= \bot
-\end{align*}
-
-\emph{Contradiction}. Therefore, $a$ must be contained in $S$.
-
-\vspace{10 mm}
-
-We again use proof by contradiction for the $\Rightarrow$ direction. 
-
-Assume $S$ is a stable extension for $F.$
-Suppose  for an arbitrary argument $ a \in S$ that $\forall M \in \modelset$, $ M(a) = \bot$. 
-
-Let us inspect the model function of $a$:
-\begin{align*}
-M(a) &= \tau(a) \tupd \neg \Tatt_{a_i \in \attackers a} ((\tau((a_i, a)) \tupd M(a_i)) \\
-\bot  &= \top \tupd \neg \left ((\tau((a_1, a)) \tupd M(a_1)) \tatt ... \tatt  ((\tau((a_n, a)) \tupd M(a_n)) \right ) \\%\text{, being } a_i = b \in S \\
-\bot     &= \top \tupd \neg \left (\top \tupd M(a_1)) \tatt ...  \tatt  (\top \tupd M(a_n)) \right ) \\
-\bot    &= \top \tupd \neg \left ( M(a_1) \tatt ... \tatt M(a_n) \right ) \\
-\bot    &=  \neg \left ( M(a_1) \tatt ...  \tatt M(a_n) \right ) \\
-\top    &=    M(a_1) \tatt ...  \tatt M(a_n) \\
-\end{align*}
-Thus it can be concluded that for some $i \in[1..n]$, $M(a_i) = \top$. And so it follows that $\exists {a_i} \in \args$ s.t. $a_i\att{a}$. But since $a \in S$, $\exists_{b\in S}\; b\att{a_i}$. Which results into $M(a_i) = \bot$. Consequently, the calculation led to a \emph{contradiction}.
-
-\end{proof}
 
 \end{document}
