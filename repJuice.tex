@@ -209,7 +209,7 @@ $\bot$, containing all possible valuations of an argument.
   
   \item $\lnot:\valueset\rightarrow \valueset$ is a unary algebraic operation for computing a restricting value corresponding to a given valuation or strength.
   
-  \item $\tau$ is a vote aggregation function, which aggregates positive and negative votes and the maximum number of total votes into a social support value.
+  \item $\tau$ is a vote aggregation function which given some context, aggregates positive and negative votes into a social support value.
 
 \end{itemize}
 \end{definition}
@@ -219,26 +219,26 @@ $\bot$, containing all possible valuations of an argument.
 Let $\saf$ be an ESAF, $\sem = \sembodyNew$ a semantic framework. Then, let
 \begin{itemize}
 \item $\attackers{a} \triangleq \{a_i \in \args: (a_i, a) \in \att\}$ be the set of direct attackers of an argument $a \in \args$, 
-\item $v^r: \nat \times \nat \to \real$ be a function s.t. $v^r(v^{+}, v^{-}) \triangleq \frac{v^{+}}{v^{-}}$ where $v^{+}, v^{-} \in \mathbb{N}$,
-\item $v^t: \nat \times \nat \to \nat$ be a function s.t. $v^t(v^{+}, v^{-}) \triangleq v^{+} + v^{-}$ where $v^{+}, v^{-} \in \mathbb{N}$, 
+\item $v^r: \nat \times \nat \to \real$ be a function s.t. $v^r(x, y) \triangleq \frac{x}{y}$ where $v^{+}, v^{-} \in \mathbb{N}$,
+\item $v^t: \nat \times \nat \to \nat$ be a function s.t. $v^t(x, y) \triangleq x + y$ where $v^{+}, v^{-} \in \mathbb{N}$, 
 \item 
 \begin{itemize}
 \item $\vargpro a \triangleq x$ denote the number of positive votes for argument $a$,
 \item $\vargcon a \triangleq y$ denote the number of negative votes for argument $a$,
 \end{itemize}
 whenever $\varg (a) = (x, y)$,
-\\  denote the maximum total number of votes for an argument,
-\item $p_{\mathcal{A}}: 2^\args \to 2^{\nat \times \nat}$ be a function s.t. $p_{\mathcal{A}}(\mathcal{B}) = \{\varg(a)$ $|$ $a \in \mathcal{B}\}$ where $\mathcal{B} \subseteq \args$
-\item $\tau(a, \mathcal{B}) \triangleq \tau(V_{\mathcal{A}}(a), p_{\mathbb{A}}(\mathcal{B}))$ denote the social support for an argument $a$ via utilizing a vote aggregation function $\tau$ (where $\mathcal{B} \subseteq \args$),
+\\
+\item $\varg: 2^\args \to 2^{\nat \times \nat}$ be a function s.t. $\varg(\mathcal{B}) = \{\varg(a)$ $|$ $a \in \mathcal{B}\}$ where $\mathcal{B} \subseteq \args$
+\item $\tau(a, \mathcal{B}) \triangleq \tau(V_{\mathcal{A}}(a), \varg(\mathcal{B}))$ denote the social support for an argument $a$, within a set of arguments, via utilizing a vote aggregation function $\tau$ (where $\mathcal{B} \subseteq \args$),
 \item
 \begin{itemize}
 \item $\vattpro{(a, b)} \triangleq x$ denote the number of positive votes for an attack relation between arguments  $a$ and $b$,
 \item  $ \vattcon{(a, b)} \triangleq y$ denote the number of negative votes for an attack relation between arguments  $a$ and $b$,
 \end{itemize}
 whenever $\vatt ((a, b)) = (x, y)$,
-\\  denote the maximum total number of votes for an attack relation,
-\item $p_{\mathcal{R}}: 2^\att \to 2^{\nat \times \nat}$ be a function s.t. $p_{\mathcal{R}}(\mathcal{T}) = \{\vatt((a, b))$ $|$ $(a, b) \in \mathcal{T}\}$ where $\mathcal{T} \subseteq \att$,
-\item $\tau((a, b), \mathcal{T}) \triangleq \tau(V_{\mathcal{R}}((a, b)), p_{\mathcal{R}}(\mathcal{T}))$ denote the social support for an attack relation between arguments  $a$ and $b$ via utilizing a vote aggregation function $\tau$ (where $\mathcal{T} \subseteq \att$),
+\\
+\item $\vatt: 2^\att \to 2^{\nat \times \nat}$ be a function s.t. $\vatt(\mathcal{T}) = \{\vatt((a, b))$ $|$ $(a, b) \in \mathcal{T}\}$ where $\mathcal{T} \subseteq \att$,
+\item $\tau((a, b), \mathcal{T}) \triangleq \tau(V_{\mathcal{R}}((a, b)), \vatt(\mathcal{T}))$ denote the social support for an attack relation between arguments  $a$ and $b$, within a set of attack relations, via utilizing a vote aggregation function $\tau$ (where $\mathcal{T} \subseteq \att$),
 \item$$\SAFOr_{x \in R} x \triangleq\left(\left(\left(  x_{1}\SAFor x_{2}\right) \SAFor...\right)\SAFor x_{n}\right)$$ $R=\left\{  x_{1},x_{2},...,x_{n}\right\}$ denote the aggregation of a multiset of elements of $\valueset$. 
 \item $bimax: \nat \times \nat \to \nat$ be a function s.t.
 \[ bimax (x, y)  = \left\{
@@ -250,6 +250,8 @@ y &  & \text{otherwise}%
 \right. \]
 
 \item $max: 2^{\nat} \to \nat$ be a function s.t. \\$max(X) \triangleq bimax(...bimax(bimax(bimax(x_1, x_2), x_3)...), x_n)$ where $x_{i} \in X$ for $i = [1..n]$.
+
+\item $agg:  2^{\nat \times \nat} \to 2^{\nat}$ be a function s.t. $agg(\mathcal{X}) = \{v^t(a, b)$ $|$ $(a, b) \in \mathcal{X}\}$,
 
 \end{itemize}
 \end{notation}
@@ -271,7 +273,7 @@ $\tau_{e}:\nat \times \nat \times {2}^{\nat \times \nat} \rightarrow\lbrack0,1]$
 \begin{array}
 [c]{lll}
 0 &  & v_{max}=0\\
-\frac{v^{+}}{v^{+}+v^{-}+\frac{1}{max(\mathcal{X})}} &  & \text{otherwise}%
+\frac{v^{+}}{v^{+}+v^{-}+\frac{1}{max(agg(\mathcal{X}))}} &  & \text{otherwise}%
 \end{array}
 \right.
 \]
