@@ -287,15 +287,15 @@ $\tau^\args_{e}: \args \times {2}^{\args} \rightarrow\lbrack0,1]$ is the argumen
 {\color{teal}
  
 \emph{Personal Comments:} 
--  Perhaps this still doesn't look simple enough. Changing to the new $\tau$ definition has saved us from introducing the old '\emph{abuse of notations}', however now we can't adopt the same aggregation function for votes and attacks anymore since the function domains differ. (I haven't written it down above but if we adopt this notation, we shall also introduce a concrete aggregation function for the attack relations, in-line with the \emph{enhanced vote aggregation function}).
+-  Perhaps this still doesn't look simple enough. Changing to the new $\tau$ definition has saved us from introducing the old '\emph{abuse of notations}', however we can't adopt the same aggregation function for votes and attacks anymore since the function domains differ. (I haven't written it down above but if we are to adopt this notation, we shall also introduce a concrete aggregation function for the attack relations, in-line with the \emph{enhanced vote aggregation function}).
 \vspace{5 mm}
 
-- I assume the denominator of the function in Def5 looks bloated, especially in this version. In a nutshell, we need the following mechanisms: mapping each argument to their respective votes, aggregating each pos/con vote pair  and computing the maximum of those values.  I will continue thinking about it but up to now I couldn't come up with a more compact notation.
+- I assume the denominator of the function in Def5 looks bloated, especially in this version. In a nutshell, we need the following mechanisms: mapping each argument to their respective votes, aggregating each pos/con vote pair  and computing the maximum of those values.  I will continue thinking about it, unfortunately up to now I couldn't come up with a more compact notation.
 \vspace{5 mm}
 
-- The old notation reads better in this aspect since it skips the first step(going from arguments to pos/con values) as the second input is pairs of naturals. On a related note, last Friday you criticized me for using four function definitions for this notion. I guess I couldn't defend my stance properly so please let me have another go at it. 
+- The old notation(\emph{repJuice.pdf}) reads better in this aspect, since it skips the first step(going from arguments to pos/con values) as the last argument of the aggregation function is pairs of naturals. On a related note, last Friday you criticized me for using four function definitions for this notion. I guess I couldn't defend my stance properly so please let me have another go at it. 
 
-Firstly since you allowed me to define max implicitly, $bimax$ is gone. Secondly the $\omega$ function(last week's $agg$) used to utilize $v^{t}$, specifically it was as follows: $\omega(\mathcal{X}) = \{v^t(a_1, a_2)$ $|$ $(a_1, a_2) \in \mathcal{X}\}$
+Firstly since you allowed me to define $max$ implicitly, $bimax$ is gone. Secondly the $\omega$ function(last week's $agg$) used to utilize $v^{t}$, specifically it was as follows: $\omega(\mathcal{X}) = \{v^t(a_1, a_2)$ $|$ $(a_1, a_2) \in \mathcal{X}\}$
 
 If you may recall the reason why we defined functions $v^t$ and $v^r$ in the first place was not in the limits of this document. But it was because in the upcoming properties, the corresponding terms were occurring a handful times and thus you requested me to include these two functions in the definitions. So surely it may seem unnecessary using $v^t$ in the setting so far, but my thinking was that with the upcoming material it would make more sense that way.
 
