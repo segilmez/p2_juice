@@ -124,7 +124,7 @@
 \newcommand{\semsub}{\semid^\text{-}}       % Subtraction semantic framework
 \newcommand{\semmax}{\semid^\text{max}}     % Max semantic framework
 
-\newcommand{\sembodyNew}{\left\langle \valueset,\SAFand_\mathcal{A}, \SAFand_\mathcal{R},\SAFor,\lnot,\tau \right\rangle} %New semantic body
+\newcommand{\sembodyNew}{\left\langle \valueset,\SAFand_\mathcal{A}, \SAFand_\mathcal{R}, \SAFor, \lnot, \tau^{\args}, \tau^{\att}\right\rangle} %New semantic body
 
 \newcommand{\SAFand}{\curlywedge}     % Logical and for SAF equations 
 \newcommand{\SAFor}{\curlyvee}        % Logical or for SAF equations
@@ -189,11 +189,19 @@ An \emph{extended social argumentation framework} is a 4-tuple $\saf$, where
 
 \begin{definition}
 \label{def:voteAgg}
-[Vote Aggregation Function]
-Given a totally ordered set $\valueset$ with top and bottom elements $\top$, $\bot$, a vote aggregation function $\tau$ over $\valueset$ is any function such that $\tau: \nat \times \nat \times {2}^{\nat \times \nat} \to L$.
+[Argument Vote Aggregation Function]
+Let $\args$ be a set of arguments, $\varg : \args \to \nat \times \nat$ a function that stores the crowd's pro and con votes for each argument and  $\valueset$ a totally ordered set with top and bottom elements $\top$, $\bot$.
+
+We say that an argument vote aggregation function $\tau^{\args}$ is any function such that $\tau^{\args}: \args \times {2}^{\args} \to L$.
 \end{definition}
 
+\begin{definition}
+\label{def:voteAgg}
+[Attack Vote Aggregation Function]
+Let $\att$ be a set of attack relations, $\vatt : \att \to \nat \times \nat$ a function that stores the crowd's pro and con votes for each attack and  $\valueset$ a totally ordered set with top and bottom elements $\top$, $\bot$.
 
+We say that an attack vote aggregation function $\tau^{\att}$ is any function such that $\tau^{\att}: \att \times {2}^{\att} \to L$.
+\end{definition}
 
 \begin{definition}[Semantic Framework]
 \label{def:semfram}
@@ -209,7 +217,7 @@ $\bot$, containing all possible valuations of an argument.
   
   \item $\lnot:\valueset\rightarrow \valueset$ is a unary algebraic operation for computing a restricting value corresponding to a given valuation or strength.
   
-  \item $\tau$ is a vote aggregation function which given some context, aggregates positive and negative votes into a social support value.
+  \item $\tau^{\args}$, $\tau^{\att}$ are two vote aggregation functions for computing a social support value of an argument and an attack relation respectively, given some context.
 
 \end{itemize}
 \end{definition}
@@ -228,8 +236,8 @@ Let $\saf$ be an ESAF, $\sem = \sembodyNew$ a semantic framework. Then, let
 \end{itemize}
 whenever $\varg (a) = (x, y)$,
 \\
-\item $\varg: 2^\args \to 2^{\nat \times \nat}$ be a function s.t. $\varg(\mathcal{A}^{'}) = \{\varg(a)$ $|$ $a \in \mathcal{A}^{'}\}$,
-\item $\tau(a, \mathcal{A}^{'}) \triangleq \tau(V_{\mathcal{A}}(a), \varg(\mathcal{A}^{'}))$ denote the social support for an argument $a$, within a set of arguments $A^{'}$, via utilizing a vote aggregation function $\tau$,
+\item $\varg: 2^\args \to 2^{\nat \times \nat}$ be a function s.t. $\varg(\mathcal{A}^{'}) = \{\varg(a)$ $|$ $a \in \mathcal{A^{'}}\}$,
+%\item $\tau(a, A^{'}) \triangleq \tau(V_{\mathcal{A}}(a), \varg(A^{'}))$ denote the social support for an argument $a$, within a set of arguments $A^{'}$, via utilizing a vote aggregation function $\tau$,
 \item
 \begin{itemize}
 \item $\vattpro{(a, b)} \triangleq x$ denote the number of positive votes for an attack relation between arguments  $a$ and $b$,
@@ -237,13 +245,13 @@ whenever $\varg (a) = (x, y)$,
 \end{itemize}
 whenever $\vatt ((a, b)) = (x, y)$,
 \\
-\item $\vatt: 2^\att \to 2^{\nat \times \nat}$ be a function s.t. $\vatt(\mathcal{R}^{'}) = \{\vatt((a, b))$ $|$ $(a, b) \in\mathcal{R}^{'}\}$,
-\item $\tau((a, b), \mathcal{R}^{'}) \triangleq \tau(V_{\mathcal{R}}((a, b)), \vatt(\mathcal{R}^{'}))$ denote the social support for an attack relation between arguments  $a$ and $b$, within a set of attack relations $R^{'}$, via utilizing a vote aggregation function $\tau$,
+\item $\vatt: 2^\att \to 2^{\nat \times \nat}$ be a function s.t. $\vatt(\mathcal{R}^{'}) = \{\vatt((a, b))$ $|$ $(a, b) \in \mathcal{R}^{'}\}$,
+%\item $\tau((a, b), R^{'}) \triangleq \tau(V_{\mathcal{R}}((a, b)), \vatt(R^{'}))$ denote the social support for an attack relation between arguments  $a$ and $b$, within a set of attack relations $R^{'}$, via utilizing a vote aggregation function $\tau$,
 \item$$\SAFOr_{x \in X} x \triangleq\left(\left(\left(  x_{1}\SAFor x_{2}\right) \SAFor...\right)\SAFor x_{n}\right)$$ $X=\left\{  x_{1},x_{2},...,x_{n}\right\}$ denote the aggregation of a multiset of elements of $\valueset$. 
 
 \item $max: 2^{\nat} \to \nat$ be a function s.t. it returns the maximum value amongst the natural numbers from the non-empty set given as the input.
 
-\item $\omega:  2^{\nat \times \nat} \to 2^{\nat}$ be a function s.t. $\omega(\mathcal{X}) = \{v^t(a, b)$ $|$ $(a, b) \in \mathcal{X}\}$,
+\item $\omega:  2^{\nat \times \nat} \to 2^{\nat}$ be a function s.t. $\omega(\mathcal{X}) = \{a_{1}+a_{2}$ $|$ $(a_{1}, a_{2}) \in \mathcal{X}\}$,
 
 \end{itemize}
 \end{notation}
@@ -251,21 +259,21 @@ whenever $\vatt ((a, b)) = (x, y)$,
 \begin{definition}[Model] 
 \label{def:model}
   Let $\saf$ be a social argumentation framework, $\sem = \sembodyNew$ be a semantic framework. An $\semid$-model of $\safid$ is a total mapping $M : \args \rightarrow \valueset$ such that for all $a \in \args$,
-  $$\displaystyle M(a) = \tau(a, \args ) \SAFand_\args \lnot \SAFOr_{a_i \in \attackers{a}} \left(\tau\left((a_i, a), \att \right) \SAFand_\att M\left(a_i\right)\right)$$
+  $$\displaystyle M(a) = \tau^\args(a, \args ) \SAFand_\args \lnot \SAFOr_{a_i \in \attackers{a}} \left(\tau^\att\left((a_i, a), \att \right) \SAFand_\att M\left(a_i\right)\right)$$
 \end{definition}
 
 
 \begin{definition}
 \label{def:enhVoteAgg}
 [Enhanced Vote Aggregation]
-\\ Enhanced vote aggregation function
-$\tau_{e}:\nat \times \nat \times {2}^{\nat \times \nat} \rightarrow\lbrack0,1]$ is the vote aggregation function such that
+ Given $\varg : \args \to \nat \times \nat$, \\Enhanced vote aggregation function
+$\tau^\args_{e}: \args \times {2}^{\args} \rightarrow\lbrack0,1]$ is the argument vote aggregation function such that
 \[
-\tau_{e}  (v^{+},v^{-}, \mathcal{X})  = \left\{
+\tau^\args_{e}  (a, \mathcal{A}^{'})  = \left\{
 \begin{array}
 [c]{lll}
 0 &  & v_{max}=0\\
-\frac{v^{+}}{v^{+}+v^{-}+\frac{1}{max(\omega(\mathcal{X}))}} &  & \text{otherwise}%
+\frac{\vargpro a}{\vargpro a + \vargcon a+\frac{1}{max(\omega(\varg (\mathcal{A}^{'})))}} &  & \text{otherwise}%
 \end{array}
 \right.
 \]
@@ -273,4 +281,25 @@ $\tau_{e}:\nat \times \nat \times {2}^{\nat \times \nat} \rightarrow\lbrack0,1]$
 %where $v_{max}$ stands for the maximum number of votes for an argument in the system.
 \end{definition}
 
+
+\newpage
+
+{\color{teal}
+ 
+\emph{Personal Comments:} 
+-  Perhaps this still doesn't look simple enough. Changing to the new $\tau$ definition has saved us from introducing the old '\emph{abuse of notations}', however now we can't adopt the same aggregation function for votes and attacks anymore since the function domains differ. (I haven't written it down above but if we adopt this notation, we shall also introduce a concrete aggregation function for the attack relations, in-line with the \emph{enhanced vote aggregation function}).
+\vspace{5 mm}
+
+- I assume the denominator of the function in Def5 looks bloated, especially in this version. In a nutshell, we need the following mechanisms: mapping each argument to their respective votes, aggregating each pos/con vote pair  and computing the maximum of those values.  I will continue thinking about it but up to now I couldn't come up with a more compact notation.
+\vspace{5 mm}
+
+- The old notation reads better in this aspect since it skips the first step(going from arguments to pos/con values) as the second input is pairs of naturals. On a related note, last Friday you criticized me for using four function definitions for this notion. I guess I couldn't defend my stance properly so please let me have another go at it. 
+
+Firstly since you allowed me to define max implicitly, $bimax$ is gone. Secondly the $\omega$ function(last week's $agg$) used to utilize $v^{t}$, specifically it was as follows: $\omega(\mathcal{X}) = \{v^t(a_1, a_2)$ $|$ $(a_1, a_2) \in \mathcal{X}\}$
+
+If you may recall the reason why we defined functions $v^t$ and $v^r$ in the first place was not in the limits of this document. But it was because in the upcoming properties, the corresponding terms were occurring a handful times and thus you requested me to include these two functions in the definitions. So surely it may seem unnecessary using $v^t$ in the setting so far, but my thinking was that with the upcoming material it would make more sense that way.
+
+All in all, as can be seen in both .pdf files current $\omega$ definition omits using $v^t$: $\omega(\mathcal{X}) = \{v^t(a_1, a_2)$ $|$ $(a_1, a_2) \in \mathcal{X}\}$. And consequently the \emph{enhanced vote aggregation function} definition in \emph{repJuice.pdf} only utilizes two external functions: the $max$ and $\omega$.
+
+}
 \end{document}
