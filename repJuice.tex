@@ -125,6 +125,7 @@
 \newcommand{\semmax}{\semid^\text{max}}     % Max semantic framework
 
 \newcommand{\sembodyNew}{\left\langle \valueset,\SAFand_\mathcal{A}, \SAFand_\mathcal{R},\SAFor,\lnot,\tau \right\rangle} %New semantic body
+\newcommand{\sembodyNewB}{\left\langle \valueset,\SAFand_\mathcal{A}, \SAFand_\mathcal{R},\SAFor,\lnot,\tau_{e} \right\rangle} %New semantic body
 
 \newcommand{\SAFand}{\curlywedge}     % Logical and for SAF equations 
 \newcommand{\SAFor}{\curlyvee}        % Logical or for SAF equations
@@ -144,7 +145,7 @@
 \newcommand{\ssv}{\mathcal{V}}
 \newcommand{\tv}{\mathcal{T}}
 \newcommand{\pv}{\mathcal{P}}
-\newcommand{\xv}{\mathcal{X}}
+\newcommand{\xv}{X}
 \newcommand{\ev}{\mathcal{E}}
 
 \newcommand{\safit}{F}
@@ -241,9 +242,9 @@ whenever $\vatt ((a, b)) = (x, y)$,
 \item $\tau((a, b), \mathcal{R}^{'}) \triangleq \tau(V_{\mathcal{R}}((a, b)), \vatt(\mathcal{R}^{'}))$ denote the social support for an attack relation between arguments  $a$ and $b$, within a set of attack relations $R^{'}$, via utilizing a vote aggregation function $\tau$,
 \item$$\SAFOr_{x \in X} x \triangleq\left(\left(\left(  x_{1}\SAFor x_{2}\right) \SAFor...\right)\SAFor x_{n}\right)$$ $X=\left\{  x_{1},x_{2},...,x_{n}\right\}$ denote the aggregation of a multiset of elements of $\valueset$. 
 
-\item $max: 2^{\nat} \to \nat$ be a function s.t. it returns the maximum value amongst the natural numbers from the non-empty set given as the input.
+\item $max: 2^{\nat} \to \nat$ be a function s.t. it returns the maximum value amongst the natural numbers from the non-empty multiset given as the input.
 
-\item $\omega:  2^{\nat \times \nat} \to 2^{\nat}$ be a function s.t. $\omega(\mathcal{X}) = \{a_{1}+a_{2}$ $|$ $(a_{1}, a_{2}) \in \mathcal{X}\}$,
+\item $\omega:  2^{\nat \times \nat} \to 2^{\nat}$ be a function s.t. $\omega(X) = \{a_{1}+a_{2}$ $|$ $(a_{1}, a_{2}) \in X\}$,
 
 \end{itemize}
 \end{notation}
@@ -261,16 +262,116 @@ whenever $\vatt ((a, b)) = (x, y)$,
 \\ Enhanced vote aggregation function
 $\tau_{e}:\nat \times \nat \times {2}^{\nat \times \nat} \rightarrow\lbrack0,1]$ is the vote aggregation function such that
 \[
-\tau_{e}  (v^{+},v^{-}, \mathcal{X})  = \left\{
+\tau_{e}  (v^{+},v^{-}, X)  = \left\{
 \begin{array}
 [c]{lll}
-0 &  & v_{max}=0\\
-\frac{v^{+}}{v^{+}+v^{-}+\frac{1}{max(\omega(\mathcal{X}))}} &  & \text{otherwise}%
+0 &  & \forall x \in X,\hspace{1mm} x = (0,0)\\
+\frac{v^{+}}{v^{+}+v^{-}+\frac{1}{max(\omega(X))}} &  & \text{otherwise}%
 \end{array}
 \right.
 \]
-%\tau_{e}\left(  v^{+},v^{-}, v_{max}\right)  =
-%where $v_{max}$ stands for the maximum number of votes for an argument in the system.
 \end{definition}
+
+
+\begin{property}
+\label{P1} [Absolute argument freeness] \\
+Let $\tau$ be a a vote aggregation function given $\valueset$ and $X = \{(x_{1}, x_{2})$ $|$ $x_{1}, x_{2} \in X^{'}$, $X^{'} \subseteq \nat \}$. We say that $\tau$ is 'absolute argument free' if
+% $X$ be a set of pairs of integers. %% <== sozlu hali
+\begin{center}
+$\forall n_1, n_2 \in \nat$, $\tau (n_1, n_2, X) \neq \top$.
+\end{center}
+\end{property}
+
+%The gist of the property can be captured in a verbal context with the following sentence: \emph{No argument enjoys perfect Social Support.}  \\
+
+
+\begin{property}
+\label{P2}[Precedence of the vote ratio]\\
+Let $\tau$ be a a vote aggregation function given $\valueset$ and $X = \{(x_{1}, x_{2})$ $|$ $x_{1}, x_{2} \in X^{'}$, $X^{'} \subseteq \nat \}$. We say that $\tau$ is 'vote ratio precedent' if
+\begin{center}
+$\forall n_1, n_2, n_3, n_4 \in \nat$,  \\
+$\left( v^{r}(n_{1}, n_{2}) \ge v^{r}(n_{3}, n_{4}) \right) \implies \left( \tau(n_{1}, n_{2}, X) \ge \tau(n_{3}, n_{4}, X) \right)$. \\
+
+
+\end{center}
+
+\end{property}
+
+%The gist of the property can be captured in a verbal context with the following sentence: \emph{If the value of the ratio of positive votes to the negative votes is higher for an argument $a$ than an argument $b$; $a$'s social support value exceeds the social support of $b$.}  \\
+
+
+
+\begin{property}
+\label{P3}[Precedence of the total number of votes] \\
+Let $\tau$ be a a vote aggregation function given $\valueset$ and $X = \{(x_{1}, x_{2})$ $|$ $x_{1}, x_{2} \in X^{'}$, $X^{'} \subseteq \nat \}$. We say that $\tau$ is 'total votes precedent' if
+\begin{center}
+ $\forall n_1, n_2, n_3, n_4 \in \nat$,  \\
+$\left( \left(v^{r}(n_{1}, n_{2}) = v^{r}(n_{3}, n_{4}) \right) \land  \left( v^{t}(n_{1}, n_{2}) > ( v^{t}(n_{3}, n_{4}) \right) \right) \implies \left( \tau(n_{1}, n_{2}, X) > \tau(n_{3}, n_{4}, X) \right)$. 
+\\
+
+\end{center}
+\end{property}
+
+%The gist of the property can be captured in a verbal context with the following sentence: \emph{When the ratios are equal, the function should return a higher social support value for the one with the higher number of total votes.}  \\
+
+
+
+
+
+\begin{proposition}
+Enhanced Vote Aggregation function respects Property \ref{P1}.
+\end{proposition}
+
+\begin{proof} %Trivial.\\
+Let $\saf$ be an extended social argumentation framework with a semantic framework $\sem = \sembodyNewB$ and $X = \{(x_{1}, x_{2})$ $|$ $x_{1}, x_{2} \in X^{'}$, $X^{'} \subseteq \nat \}$ and two arbitrary naturals $n_1, n_2 \in \nat$.
+
+We consider the two main cases for the enhanced vote aggregation function with respect to the multiset $X$.
+
+Firstly, if $X$ is an empty set or $X$ does not have any elements other than the pair $(0, 0)$, by definition $\tau_{e}(n_1, n_2, X) = 0 < 1$.
+%$X = \emptyset$ or all $v_{max} = 0$ then $\tau(a) = \tau(v^{+}, v^{-}, X) = 0 \le 1$. \\
+
+We know that for an arbitrary multiset of naturals $Y$, $max(X)  \in \nat^+$, and consequently $\frac{1}{max(X)} > 0$. Since the denominator of the term in the social support function is simply the sum of the numerator and some $r \in {R}^+ $, the numerator is strictly less than the denominator. Hence it follows that: \\
+\begin{center}
+$ \tau_{e}(n_{1}, n_{2},  X) = \frac{n_{1}}{n_{1} + n_{2}+\frac{1}{v_{max}}} < 1$.
+\end{center}
+\end{proof}
+
+\begin{conjecture}
+Enhanced Vote Aggregation function respects Property \ref{P2}.
+\end{conjecture}
+
+\begin{proposition}
+Vote Aggregation function\cite{eml2013esaf} does not respect Property \ref{P2}.
+\end{proposition}
+
+\begin{proof}
+It's sufficient to display a counter example.
+
+Let $\epsilon = 0.1, v_1^{+} = 1, v_1^{-} = 1, v_2^{+} = 499, v_2^{-} = 501$.
+
+Since $v^{r}(v_1^{+}, v_1^{-}) \ge v^{r}(v_2^{+}, v_2^{-})$ via the property the following should hold $\tau(v_1^{+}, v_1^{-}) \ge \tau(v_2^{+}, v_2^{-})$.
+
+However $\tau(v_1^{+}, v_1^{-}) = \tau(1, 1) \cong 0.4761$ and  $\tau(v_2^{+}, v_2^{-}) = \tau(499, 501) \cong 0.4989$.
+Hence, $\tau(v_1^{+}, v_1^{-}) < \tau(v_2^{+}, v_2^{-})$.
+
+We conclude a contradiction.
+\end{proof}
+
+\begin{conjecture}
+Enhanced Vote Aggregation function respects Property \ref{P3}.
+\end{conjecture}
+
+\bibliographystyle{plain}
+\bibliography{repBib}
+
+{\color{teal}
+ 
+\emph{Pointers for discussion:} 
+\begin{itemize}
+\item Rationale for the potential property regarding $M(x) > 0.5$.
+\item Problem concerning comparing the new\&old vote aggregation functions wrt. the properties. \\ e.g. Proposition 2, old one missing the third argument.
+\item Type matching in vote aggregation functions when the domain is a bag consisting the union of $\args$ and $\att$ .
+\end{itemize}
+}
 
 \end{document}
