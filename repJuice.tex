@@ -85,6 +85,8 @@
 \newcommand{\att}{\mathcal{R}}  % Set of all attacks
 \newcommand{\valueset}{L}
 
+\newcommand{\obj}{\mathcal{O}} % Set of all arguments and attacks as a union
+
 %%% Votes on arguments
 \newcommand{\varg}{V_{\args}}   % Function giving votes on arguments
 \newcommand{\vargpro}[1]{\varg^+\left(#1\right)} % Pro votes on arguments
@@ -114,6 +116,9 @@
 \newcommand{\oldsafbody}{\langle \args, \att, V \rangle} % old SAF tuple
 % Alternative framework, same as \safbody but with ' everywhere ;)
 \newcommand{\altsafbody}{\langle \args', \att', \varg', \vatt' \rangle} 
+
+\newcommand{\safbodyO}{\langle \args, \att, \obj, V \rangle} % SAF tuple with objects
+\newcommand{\safO}{\safid = \safbodyO} % Framework id and respective tuple with objects
 
 %%% Semantics
 \newcommand{\semid}{\mathcal{S}}        % Semantic framework identifier
@@ -179,19 +184,19 @@
 
 
 \begin{definition}[Extended social argumentation frameworks]
-An \emph{extended social argumentation framework} is a 4-tuple $\saf$, where
+An \emph{extended social argumentation framework} is a 4-tuple $\safO$, where
 \begin{itemize}
   \item $\args$ is the set of arguments,
   \item $\att \subseteq \args \times \args$ is a binary attack relation between arguments,
-  \item $\varg : \args \to \nat \times \nat$ stores the crowd's pro and con votes for each argument.
-  \item $\vatt : \att \to \nat \times \nat$ stores the crowd's pro and con votes for each attack.
+  \item $\obj = \args \cup \att$ is the set of objects, composed by the union of the sets of arguments and attack relations,
+  \item $V : \obj \to \nat \times \nat$ stores the crowd's pro and con votes for each object.
 \end{itemize}
 \end{definition}
 
 \begin{definition}
 \label{def:voteAgg}
 [Vote Aggregation Function]
-Given a totally ordered set $\valueset$ with top and bottom elements $\top$, $\bot$, a vote aggregation function $\tau$ over $\valueset$ is any function such that $\tau: \nat \times \nat \times {2}^{\nat \times \nat} \to L$.
+Given a totally ordered set $\valueset$ with top and bottom elements $\top$, $\bot$, a vote aggregation function $\tau$ over $\valueset$ is any function such that $\tau: \obj  \times {2}^{\obj} \to L$.
 \end{definition}
 
 
@@ -210,14 +215,16 @@ $\bot$, containing all possible valuations of an argument.
   
   \item $\lnot:\valueset\rightarrow \valueset$ is a unary algebraic operation for computing a restricting value corresponding to a given valuation or strength.
   
-  \item $\tau$ is a vote aggregation function which given some context, aggregates positive and negative votes into a social support value.
+%  \item $\tau$ is a vote aggregation function which given some context, aggregates positive and negative votes into a social support value.
+
+  \item $\tau$ is a vote aggregation function which, given the votes, determines the social support of an object within a set of objects.
 
 \end{itemize}
 \end{definition}
 
 
 \begin{notation}
-Let $\saf$ be an ESAF, $\sem = \sembodyNew$ a semantic framework. Then, let
+Let $\safO$ be an ESAF, $\sem = \sembodyNew$ a semantic framework. Then, let
 \begin{itemize}
 \item $\attackers{a} \triangleq \{a_i \in \args: (a_i, a) \in \att\}$ be the set of direct attackers of an argument $a \in \args$, 
 \item $v^r: \nat \times \nat \to \real$ be a function s.t. $v^r(x, y) \triangleq \frac{x}{y}$ where $x, y \in \mathbb{N}$,
