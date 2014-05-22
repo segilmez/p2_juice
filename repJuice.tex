@@ -222,7 +222,6 @@ $\bot$, containing all possible valuations of an argument.
 \end{itemize}
 \end{definition}
 
-
 \begin{notation}
 Let $\safO$ be an ESAF, $\sem = \sembodyNew$ a semantic framework. Then, let
 \begin{itemize}
@@ -235,15 +234,11 @@ Let $\safO$ be an ESAF, $\sem = \sembodyNew$ a semantic framework. Then, let
 \end{itemize}
 whenever $V(o) = (x, y)$,
 \\
-
 \item $V: 2^\obj \to 2^{\nat \times \nat}$ be a function s.t. $V(\mathcal{O}^{'}) = \{V(o)$ $|$ $o \in \mathcal{O}^{'}\}$,
 \item $V^{t}: 2^\obj \to 2^{\nat \times \nat}$ be a function s.t. $V^t(\mathcal{O}^{'}) = \{V^t(o)$ $|$ $o \in \mathcal{O}^{'}\}$,
-
+\item $max: 2^{\nat} \to \nat$ be a function s.t. it returns the maximum value amongst the natural numbers from the non-empty multiset given as the input.
 \item $\attackers{a} \triangleq \{a_i \in \args: (a_i, a) \in \att\}$ be the set of direct attackers of an argument $a \in \args$, 
 \item$$\SAFOr_{x \in X} x \triangleq\left(\left(\left(  x_{1}\SAFor x_{2}\right) \SAFor...\right)\SAFor x_{n}\right)$$ $X=\left\{  x_{1},x_{2},...,x_{n}\right\}$ denote the aggregation of a multiset of elements of $\valueset$. 
-
-\item $max: 2^{\nat} \to \nat$ be a function s.t. it returns the maximum value amongst the natural numbers from the non-empty multiset given as the input.
-
 \end{itemize}
 \end{notation}
 
@@ -273,10 +268,10 @@ $\tau_{e}:\obj  \times {2}^{\obj} \rightarrow\lbrack0,1]$ is the vote aggregatio
 
 \begin{property}
 \label{P1} [Absolute argument freeness] \\
-Let $\tau$ be a a vote aggregation function given $\valueset$ and $X = \{(x_{1}, x_{2})$ $|$ $x_{1}, x_{2} \in X^{'}$, $X^{'} \subseteq \nat \}$. We say that $\tau$ is 'absolute argument free' if
+Let $\tau$ be a a vote aggregation function given a set of values $\valueset$, a set of objects $\obj$ and a value function $V$. We say that $\tau$ is 'absolute argument free' if
 % $X$ be a set of pairs of integers. %% <== sozlu hali
 \begin{center}
-$\forall n_1, n_2 \in \nat$, $\tau (n_1, n_2, X) \neq \top$.
+$\forall o \in \obj$, $\tau (o, \obj) \neq \top$.
 \end{center}
 \end{property}
 
@@ -285,10 +280,10 @@ $\forall n_1, n_2 \in \nat$, $\tau (n_1, n_2, X) \neq \top$.
 
 \begin{property}
 \label{P2}[Precedence of the vote ratio]\\
-Let $\tau$ be a a vote aggregation function given $\valueset$ and $X = \{(x_{1}, x_{2})$ $|$ $x_{1}, x_{2} \in X^{'}$, $X^{'} \subseteq \nat \}$. We say that $\tau$ is 'vote ratio precedent' if
+Let $\tau$ be a a vote aggregation function given a set of values $\valueset$, a set of objects $\obj$ and a value function $V$. We say that $\tau$ is 'vote ratio precedent' if
 \begin{center}
-$\forall n_1, n_2, n_3, n_4 \in \nat$,  \\
-$\left( v^{r}(n_{1}, n_{2}) \ge v^{r}(n_{3}, n_{4}) \right) \implies \left( \tau(n_{1}, n_{2}, X) \ge \tau(n_{3}, n_{4}, X) \right)$. \\
+$\forall o_1, o_2 \in \obj$,  \\
+$\left( v^{r}(o_{1}) \ge v^{r}(o_{2}) \right) \implies \left( \tau(o_{1}, \obj) \ge \tau(o_{2},\obj) \right)$. \\
 
 
 \end{center}
@@ -301,10 +296,10 @@ $\left( v^{r}(n_{1}, n_{2}) \ge v^{r}(n_{3}, n_{4}) \right) \implies \left( \tau
 
 \begin{property}
 \label{P3}[Precedence of the total number of votes] \\
-Let $\tau$ be a a vote aggregation function given $\valueset$ and $X = \{(x_{1}, x_{2})$ $|$ $x_{1}, x_{2} \in X^{'}$, $X^{'} \subseteq \nat \}$. We say that $\tau$ is 'total votes precedent' if
+Let $\tau$ be a a vote aggregation function given a set of values $\valueset$, a set of objects $\obj$ and a value function $V$. We say that $\tau$ is 'total votes precedent' if
 \begin{center}
- $\forall n_1, n_2, n_3, n_4 \in \nat$,  \\
-$\left( \left(v^{r}(n_{1}, n_{2}) = v^{r}(n_{3}, n_{4}) \right) \land  \left( v^{t}(n_{1}, n_{2}) > ( v^{t}(n_{3}, n_{4}) \right) \right) \implies \left( \tau(n_{1}, n_{2}, X) > \tau(n_{3}, n_{4}, X) \right)$. 
+ $\forall o_1, o_2 \in \obj$,  \\
+$\left( \left(v^{r}(o_{1}) = v^{r}(o_{2}) \right) \land  \left( v^{t}(o_{1}) > ( v^{t}(o_{2}) \right) \right) \implies \left( \tau(o_{1}, \obj) > \tau(o_{2}, \obj) \right)$. 
 \\
 
 \end{center}
@@ -321,16 +316,20 @@ Enhanced Vote Aggregation function respects Property \ref{P1}.
 \end{proposition}
 
 \begin{proof} %Trivial.\\
-Let $\saf$ be an extended social argumentation framework with a semantic framework $\sem = \sembodyNewB$ and $X = \{(x_{1}, x_{2})$ $|$ $x_{1}, x_{2} \in X^{'}$, $X^{'} \subseteq \nat \}$ and two arbitrary naturals $n_1, n_2 \in \nat$.
+Let  $\valueset$ be a totally ordered set with top and bottom elements $\top$, $\bot$, $V$ a voting function, $\obj$ a set of objects and an arbitrary $o \in \obj$.
 
-We consider the two main cases for the enhanced vote aggregation function with respect to the multiset $X$.
+We consider the two main cases for the enhanced vote aggregation function with respect to $o$.
 
-Firstly, if $X$ is an empty set or $X$ does not have any elements other than the pair $(0, 0)$, by definition $\tau_{e}(n_1, n_2, X) = 0 < 1$.
-%$X = \emptyset$ or all $v_{max} = 0$ then $\tau(a) = \tau(v^{+}, v^{-}, X) = 0 \le 1$. \\
+Firstly, if $V(o) = (0,0)$, by definition $\tau_{e}(o, \obj) = 0 < 1$.
 
-We know that for an arbitrary multiset of naturals $Y$, $max(X)  \in \nat^+$, and consequently $\frac{1}{max(X)} > 0$. Since the denominator of the term in the social support function is simply the sum of the numerator and some $r \in {R}^+ $, the numerator is strictly less than the denominator. Hence it follows that: \\
+Now assume $V(o) \neq (0,0)$. We know that for an arbitrary multiset of naturals $X$ where $\exists (n_1,n_2) \in X$ s.t. $(n_1,n_2) \neq (0,0)$, $max(X)  \in \nat^+$. And consequently $\frac{1}{max(X)} > 0$. Furthermore we have $v^{t}(o) = v^{+}(o) + v^{-}(o)$.
+
+From the two inferences we get: $(v^{t}(o)+\frac{1}{max(v^{t}(o \cup \mathcal{O}))}) > v^{+}$.
+
+% the denominator of the term in the social support function is simply the sum of the numerator and some $r \in {R}^+ $, the numerator is strictly less than the denominator. 
+Hence it follows that: \\
 \begin{center}
-$ \tau_{e}(n_{1}, n_{2},  X) = \frac{n_{1}}{n_{1} + n_{2}+\frac{1}{v_{max}}} < 1$.
+$ \tau_{e}(o,  \obj) = \frac{v^{+}(o)}{v^{t}(o)+\frac{1}{max(v^{t}(o \cup \mathcal{O}))}} < 1$.
 \end{center}
 \end{proof}
 
@@ -345,9 +344,14 @@ Vote Aggregation function\cite{eml2013esaf} does not respect Property \ref{P2}.
 \begin{proof}
 It's sufficient to display a counter example.
 
-Let $\epsilon = 0.1, v_1^{+} = 1, v_1^{-} = 1, v_2^{+} = 499, v_2^{-} = 501$.
+Let  $\valueset$ be a totally ordered set with top and bottom elements $\top$, $\bot$, $V$ a voting function, $\obj$ a set of objects and $o_1, o_2 \in \obj$.
 
-Since $v^{r}(v_1^{+}, v_1^{-}) \ge v^{r}(v_2^{+}, v_2^{-})$ via the property the following should hold $\tau(v_1^{+}, v_1^{-}) \ge \tau(v_2^{+}, v_2^{-})$.
+EXTEND PART
+
+Furthermore assume $\epsilon = 0.1, V(o_1) = (1, 1)$ and $V(o_2) = (499, 501).$ 
+%v_1^{+} = 1, v_1^{-} = 1, v_2^{+} = 499, v_2^{-} = 501$.
+
+Since $v^{r}(o_{1}) \ge v^{r}(o_{2})$ via the property the following should hold $\tau(o_{1}, \obj) \ge \tau(o_{2},\obj)$.
 
 However $\tau(v_1^{+}, v_1^{-}) = \tau(1, 1) \cong 0.4761$ and  $\tau(v_2^{+}, v_2^{-}) = \tau(499, 501) \cong 0.4989$.
 Hence, $\tau(v_1^{+}, v_1^{-}) < \tau(v_2^{+}, v_2^{-})$.
@@ -362,14 +366,15 @@ Enhanced Vote Aggregation function respects Property \ref{P3}.
 \bibliographystyle{plain}
 \bibliography{repBib}
 
+%%
+\begin{comment}
 {\color{teal}
  
 \emph{Pointers for discussion:} 
 \begin{itemize}
-\item Rationale for the potential property regarding $M(x) > 0.5$.
-\item Problem concerning comparing the new\&old vote aggregation functions wrt. the properties. \\ e.g. Proposition 2, old one missing the third argument.
-\item Type matching in vote aggregation functions when the domain is a bag consisting the union of $\args$ and $\att$ .
+\item
 \end{itemize}
 }
-
+\end{comment}
+%%
 \end{document}
